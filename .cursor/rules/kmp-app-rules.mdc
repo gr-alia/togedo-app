@@ -1,0 +1,14 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Project-Wide Rules for Cursor (KMP App)
+
+- This project is a Kotlin Multiplatform app targeting Android, iOS, Desktop, and Web with a shared UI using Compose Multiplatform.
+- Use Koin for dependency injection across all modules.
+- Use Ktor for networking in shared code.
+- Default to a standard Gradle KMP setup with Kotlin DSL (don’t suggest alternative build systems).
+- Keep state management flexible — don’t enforce a specific pattern unless I specify later.
+- Place platform-specific code in expect/actual blocks and keep shared code platform-agnostic.
+- Prefer modern, stable libraries and APIs for all platforms unless I explicitly request experimental features.
