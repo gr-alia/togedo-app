@@ -1,18 +1,18 @@
 [versions]
 
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 compose = "1.8.2"
-agp = "8.10.0"
+agp = "8.12.0"
 androidx-activityCompose = "1.10.1"
-androidx-uiTest = "1.8.1"
-hotReload = "1.0.0-beta04"
+androidx-uiTest = "1.9.0"
+hotReload = "1.0.0-beta05"
 kermit = "2.0.6"
 kotlinx-coroutines = "1.10.2"
-ktor = "3.2.2"
+ktor = "3.2.3"
 kotlinx-serialization = "1.9.0"
 koin = "4.1.0"
 kstore = "1.0.0"
-buildConfig = "5.6.5"
+buildConfig = "5.6.7"
 
 [libraries]
 
