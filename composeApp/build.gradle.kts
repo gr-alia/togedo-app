@@ -56,6 +56,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.kstore)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.screenModel)
+            implementation(libs.voyager.tabNavigator)
+            implementation(libs.voyager.koin)
         }
 
         commonTest.dependencies {
