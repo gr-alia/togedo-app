@@ -27,8 +27,6 @@ object ProfileTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(ProfileScreen()) { navigator ->
-            // Profile tab content
-        }
+        Navigator(ProfileScreen())
     }
 }

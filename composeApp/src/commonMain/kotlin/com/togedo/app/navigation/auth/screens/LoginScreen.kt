@@ -21,7 +21,7 @@ class LoginScreen : Screen {
         )
     }
 
-    @Preview
+
     @Composable
     fun LoginContent(onEventOccurred: () -> Unit){
         Column(
@@ -52,5 +52,11 @@ class LoginScreen : Screen {
                 Text("Login")
             }
         }
+    }
+
+    @Preview
+    @Composable
+    fun LoginContentPreview(){
+        LoginContent(onEventOccurred = {})
     }
 }

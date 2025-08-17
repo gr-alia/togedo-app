@@ -26,8 +26,6 @@ object CreateTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(CreateActivityScreen()) { navigator ->
-            // Create tab content
-        }
+        Navigator(CreateActivityScreen())
     }
 }

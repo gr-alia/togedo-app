@@ -6,7 +6,5 @@ import com.togedo.app.navigation.auth.screens.LoginScreen
 
 @Composable
 fun AuthFlow() {
-    Navigator(LoginScreen()) { navigator ->
-        // Auth flow content
-    }
+    Navigator(LoginScreen())
 }

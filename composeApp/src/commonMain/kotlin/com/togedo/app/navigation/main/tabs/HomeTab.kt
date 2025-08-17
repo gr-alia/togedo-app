@@ -26,8 +26,6 @@ object HomeTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(ActivityListScreen()) { navigator ->
-            // Home tab content
-        }
+        Navigator(ActivityListScreen())
     }
 }
