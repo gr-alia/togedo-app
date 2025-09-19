@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.hotReload).apply(false)
     alias(libs.plugins.kotlinx.serialization).apply(false)
     alias(libs.plugins.buildConfig).apply(false)
+    alias(libs.plugins.lumo.ui).apply(false)
 }

@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.togedo.app.navigation.AppNavigator
-import com.togedo.app.theme.AppTheme
+import com.togedo.app.designsystem.AppTheme
 
 @Composable
 internal fun App() = AppTheme {

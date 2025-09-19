@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import com.togedo.app.designsystem.components.Button
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.togedo.app.designsystem.components.ButtonVariant
 
 class ActivityListScreen : Screen {
     @Composable
@@ -31,12 +32,18 @@ class ActivityListScreen : Screen {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text(
+           /* Text(
                 text = "Activity List Screen",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
+            )*/
+
+            Button(
+                text = "Primary",
+                variant = ButtonVariant.Primary,
+                onClick = { /* handle click */ }
             )
-            
+           /*
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -54,7 +61,7 @@ class ActivityListScreen : Screen {
                         )
                     }
                 }
-            }
+            }*/
         }
     }
 }

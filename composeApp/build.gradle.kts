@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.hotReload)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
+    alias(libs.plugins.lumo.ui)
 }
 
 kotlin {

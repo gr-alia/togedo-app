@@ -1,4 +1,4 @@
-package com.togedo.app.theme
+package com.togedo.app.designsystem
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
