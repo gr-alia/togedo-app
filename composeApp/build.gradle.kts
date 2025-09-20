@@ -42,6 +42,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.ui)
+            implementation(compose.material)
             implementation(compose.foundation)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
