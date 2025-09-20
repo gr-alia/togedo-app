@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.auth.screens
+package com.togedo.app.ui.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*

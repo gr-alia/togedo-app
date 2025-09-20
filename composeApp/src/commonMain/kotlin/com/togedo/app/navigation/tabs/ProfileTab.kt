@@ -1,25 +1,22 @@
-package com.togedo.app.navigation.main.tabs
+package com.togedo.app.navigation.tabs
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.togedo.app.navigation.main.screens.ActivityListScreen
+import com.togedo.app.ui.profile.ProfileScreen
 import org.jetbrains.compose.resources.painterResource
 import togedo_app.composeapp.generated.resources.Res
-import togedo_app.composeapp.generated.resources.ic_cyclone
+import togedo_app.composeapp.generated.resources.ic_dark_mode
 
-object HomeTab : Tab {
+object ProfileTab : Tab {
     override val options: TabOptions
-        @Composable
-        get() = TabOptions(
-            index = 0u,
-            title = "Home",
-            icon = painterResource(Res.drawable.ic_cyclone)
+        @Composable get() = TabOptions(
+            index = 2u, title = "Profile", icon = painterResource(Res.drawable.ic_dark_mode)
         )
 
     @Composable
     override fun Content() {
-        Navigator(ActivityListScreen())
+        Navigator(ProfileScreen())
     }
 }

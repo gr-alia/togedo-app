@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.main.screens
+package com.togedo.app.ui.activity
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -12,7 +12,7 @@ import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.Text
 
-class InviteFriendsScreen : Screen {
+class ActivityListSettingsScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -25,7 +25,7 @@ class InviteFriendsScreen : Screen {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Invite Friends Screen",
+                text = "Bucket Settings Screen",
                 style = AppTheme.typography.h2
             )
             
@@ -34,15 +34,15 @@ class InviteFriendsScreen : Screen {
             Button(
                 onClick = { navigator.pop() }
             ) {
-                Text("Back to Create Activity")
+                Text("Back to Activity List")
             }
             
             Spacer(modifier = Modifier.height(16.dp))
             
             Button(
-                onClick = { /* TODO: Implement invite logic */ }
+                onClick = { /* TODO: Implement settings logic */ }
             ) {
-                Text("Send Invites")
+                Text("Save Settings")
             }
         }
     }

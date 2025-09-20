@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.main.screens
+package com.togedo.app.ui.profile
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*

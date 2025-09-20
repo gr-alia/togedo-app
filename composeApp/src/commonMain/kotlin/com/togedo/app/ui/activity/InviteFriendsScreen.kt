@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.auth.screens
+package com.togedo.app.ui.activity
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,37 +17,37 @@ import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.Text
 
-class RegisterScreen : Screen {
+class InviteFriendsScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
 
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Register Screen",
+                text = "Invite Friends Screen",
                 style = AppTheme.typography.h2
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.Companion.height(32.dp))
 
             Button(
                 onClick = { navigator.pop() }
             ) {
-                Text("Back to Login")
+                Text("Back to Create Activity")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.Companion.height(16.dp))
 
             Button(
-                onClick = { /* TODO: Implement register logic */ }
+                onClick = { /* TODO: Implement invite logic */ }
             ) {
-                Text("Register")
+                Text("Send Invites")
             }
         }
     }

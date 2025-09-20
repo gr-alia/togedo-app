@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.main
+package com.togedo.app.navigation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -12,9 +12,9 @@ import com.togedo.app.designsystem.components.NavigationBar
 import com.togedo.app.designsystem.components.NavigationBarItem
 import com.togedo.app.designsystem.components.Scaffold
 import com.togedo.app.designsystem.components.Text
-import com.togedo.app.navigation.main.tabs.CreateTab
-import com.togedo.app.navigation.main.tabs.HomeTab
-import com.togedo.app.navigation.main.tabs.ProfileTab
+import com.togedo.app.navigation.tabs.CreateTab
+import com.togedo.app.navigation.tabs.HomeTab
+import com.togedo.app.navigation.tabs.ProfileTab
 
 @Composable
 fun MainFlow() {

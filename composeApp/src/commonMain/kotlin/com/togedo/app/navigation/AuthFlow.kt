@@ -1,8 +1,8 @@
-package com.togedo.app.navigation.auth
+package com.togedo.app.navigation
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
-import com.togedo.app.navigation.auth.screens.LoginScreen
+import com.togedo.app.ui.auth.LoginScreen
 
 @Composable
 fun AuthFlow() {

@@ -1,4 +1,4 @@
-package com.togedo.app.navigation.main.screens
+package com.togedo.app.ui.activity
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.card.Card
+import com.togedo.app.ui.activity.ActivityDetailsScreen
 
 class ActivityListScreen : Screen {
     @Composable
@@ -32,14 +33,14 @@ class ActivityListScreen : Screen {
         )
 
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
             Text(
                 text = "Activity List Screen",
                 style = AppTheme.typography.h2,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.Companion.padding(bottom = 16.dp)
             )
 
             LazyColumn(
@@ -47,7 +48,7 @@ class ActivityListScreen : Screen {
             ) {
                 items(sampleActivities) { activity ->
                     Card(
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .fillMaxWidth()
                             .clickable {
                                 navigator.push(ActivityDetailsScreen(activity))
@@ -55,7 +56,7 @@ class ActivityListScreen : Screen {
                     ) {
                         Text(
                             text = activity,
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.Companion.padding(16.dp)
                         )
                     }
                 }
