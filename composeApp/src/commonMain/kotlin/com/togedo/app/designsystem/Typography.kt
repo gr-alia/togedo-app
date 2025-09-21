@@ -8,9 +8,35 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.resources.Font
+import togedo_app.composeapp.generated.resources.Raleway_Black
+import togedo_app.composeapp.generated.resources.Raleway_Bold
+import togedo_app.composeapp.generated.resources.Raleway_ExtraBold
+import togedo_app.composeapp.generated.resources.Raleway_ExtraLight
+import togedo_app.composeapp.generated.resources.Raleway_Light
+import togedo_app.composeapp.generated.resources.Raleway_Medium
+import togedo_app.composeapp.generated.resources.Raleway_Regular
+import togedo_app.composeapp.generated.resources.Raleway_SemiBold
+import togedo_app.composeapp.generated.resources.Raleway_Thin
+import togedo_app.composeapp.generated.resources.Res
 
 @Composable
-fun fontFamily() = FontFamily.Default
+fun fontFamily() = FontFamily.SansSerif
+
+
+@Composable
+fun RalewayFontFamily() = FontFamily(
+    /*100*/ Font(Res.font.Raleway_Thin, weight = FontWeight.Thin),
+    /*200*/ Font(Res.font.Raleway_ExtraLight, weight = FontWeight.ExtraLight),
+    /*300*/ Font(Res.font.Raleway_Light, weight = FontWeight.Light),
+    /*400*/ Font(Res.font.Raleway_Regular, weight = FontWeight.Normal),
+    /*500*/ Font(Res.font.Raleway_Medium, weight = FontWeight.Medium),
+    /*600*/ Font(Res.font.Raleway_SemiBold, weight = FontWeight.SemiBold),
+    /*700*/ Font(Res.font.Raleway_Bold, weight = FontWeight.Bold),
+    /*800*/ Font(Res.font.Raleway_ExtraBold, weight = FontWeight.ExtraBold),
+    /*900*/ Font(Res.font.Raleway_Black, weight = FontWeight.Black)
+)
+
 
 data class Typography(
     val h1: TextStyle,
@@ -117,7 +143,7 @@ private val defaultTypography =
 
 @Composable
 fun provideTypography(): Typography {
-    val fontFamily = fontFamily()
+    val fontFamily = RalewayFontFamily()
 
     return defaultTypography.copy(
         h1 = defaultTypography.h1.copy(fontFamily = fontFamily),

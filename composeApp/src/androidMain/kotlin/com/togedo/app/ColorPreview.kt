@@ -1,8 +1,6 @@
-package com.togedo.app.designsystem
+package com.togedo.app
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val Black: Color = Color(0xFF000000)
@@ -84,16 +82,15 @@ data class Colors(
     val textDisabled: Color,
     val scrim: Color,
     val elevation: Color,
-    val brand: Color
 )
 
 internal val LightColors =
     Colors(
         primary = Black,
         onPrimary = White,
-        secondary = Pink,
+        secondary = Gray400,
         onSecondary = Black,
-        tertiary = Purple,
+        tertiary = Blue900,
         onTertiary = White,
         surface = Gray200,
         onSurface = Black,
@@ -114,17 +111,16 @@ internal val LightColors =
         textDisabled = Gray400,
         scrim = Color.Black.copy(alpha = 0.32f),
         elevation = Gray700,
-        brand = PurpleIntense
     )
 
 internal val DarkColors =
     Colors(
         primary = White,
         onPrimary = Black,
-        secondary = Pink,
-        onSecondary = Black,
-        tertiary = Purple,
-        onTertiary = White,
+        secondary = Gray400,
+        onSecondary = White,
+        tertiary = Blue300,
+        onTertiary = Black,
         surface = Gray900,
         onSurface = White,
         error = Red400,
@@ -144,23 +140,4 @@ internal val DarkColors =
         textDisabled = Gray600,
         scrim = Color.Black.copy(alpha = 0.72f),
         elevation = Gray200,
-        brand = PurpleIntense
     )
-
-val LocalColors = staticCompositionLocalOf { LightColors }
-val LocalContentColor = compositionLocalOf { Color.Black }
-val LocalContentAlpha = compositionLocalOf { 1f }
-
-fun Colors.contentColorFor(backgroundColor: Color): Color {
-    return when (backgroundColor) {
-        primary -> onPrimary
-        secondary -> onSecondary
-        tertiary -> onTertiary
-        surface -> onSurface
-        error -> onError
-        success -> onSuccess
-        disabled -> onDisabled
-        background -> onBackground
-        else -> Color.Unspecified
-    }
-}
