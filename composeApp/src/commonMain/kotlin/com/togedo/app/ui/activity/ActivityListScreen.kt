@@ -7,22 +7,27 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
-import com.togedo.app.designsystem.BorderRadius
+import com.togedo.app.designsystem.Spacing
+import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.card.Card
+import com.togedo.app.designsystem.components.textfield.TextField
+import compose.icons.FeatherIcons
+import compose.icons.feathericons.Search
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class ActivityListScreen : Screen {
@@ -53,28 +58,30 @@ class ActivityListScreen : Screen {
         ) {
 
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .background(
-                        shape = RoundedCornerShape(
-                            topEnd = BorderRadius.roundedNone,
-                            topStart = BorderRadius.roundedNone,
-                            bottomEnd = BorderRadius.roundedNone,
-                            bottomStart = BorderRadius.roundedXl,
-                        ),
-                        brush = Brush.linearGradient(
-                            colors = listOf(AppTheme.colors.secondary, AppTheme.colors.brand)
-                        )
-                    )
+                modifier = Modifier.fillMaxWidth()
             ) {
 
                 Text(
                     text = "Hi, Alona",
                     style = AppTheme.typography.h2,
-                    modifier = Modifier.Companion.padding(all = 16.dp)
+                    modifier = Modifier.Companion.padding(all = Spacing.spacing4)
                 )
             }
+
+            var search by remember { mutableStateOf("Search") }
+
+
+            TextField(
+                modifier = Modifier.padding(horizontal = Spacing.spacing4),
+                value = search,
+                onValueChange = { search = it },
+                placeholder = { Text("Placeholder") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = FeatherIcons.Search
+                    )
+                }
+            )
 
             LazyColumn(
                 modifier = Modifier.padding(16.dp),

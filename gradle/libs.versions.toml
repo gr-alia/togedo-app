@@ -15,6 +15,7 @@ kstore = "1.0.0"
 buildConfig = "5.6.8"
 voyager = "1.1.0-beta03"
 lumo-ui = "1.2.5"
+composeIcons = "1.1.1"
 
 [libraries]
 
@@ -46,6 +47,7 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+composeIcons-feather = { module = "br.com.devsrsouza.compose.icons:feather", version.ref = "composeIcons" }
 
 [plugins]
 

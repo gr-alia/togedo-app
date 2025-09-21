@@ -25,7 +25,7 @@ fun fontFamily() = FontFamily.SansSerif
 
 
 @Composable
-fun RalewayFontFamily() = FontFamily(
+fun ralewayFontFamily() = FontFamily(
     /*100*/ Font(Res.font.Raleway_Thin, weight = FontWeight.Thin),
     /*200*/ Font(Res.font.Raleway_ExtraLight, weight = FontWeight.ExtraLight),
     /*300*/ Font(Res.font.Raleway_Light, weight = FontWeight.Light),
@@ -143,7 +143,7 @@ private val defaultTypography =
 
 @Composable
 fun provideTypography(): Typography {
-    val fontFamily = RalewayFontFamily()
+    val fontFamily = ralewayFontFamily()
 
     return defaultTypography.copy(
         h1 = defaultTypography.h1.copy(fontFamily = fontFamily),
