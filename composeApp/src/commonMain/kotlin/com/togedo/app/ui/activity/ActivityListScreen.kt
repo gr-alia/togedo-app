@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.Spacing
+import com.togedo.app.designsystem.components.Chip
 import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.card.Card
@@ -49,6 +51,23 @@ class ActivityListScreen : Screen {
             "Hiking Trip",
             "Board Game Night",
             "Concert"
+        )
+
+        val sampleTags = listOf(
+            "Fun",
+            "Sport",
+            "Sex",
+            // "Chill",
+            //  "Romantic",
+            //   "Fancy",
+        )
+
+        val sampleColors = listOf(
+            AppTheme.colors.brandEarthYellow,
+            AppTheme.colors.brandVerdigris,
+            AppTheme.colors.brandRusset,
+            AppTheme.colors.brandUtOrange,
+            AppTheme.colors.brandAlabaster
         )
 
         Column(
@@ -95,10 +114,32 @@ class ActivityListScreen : Screen {
                                 onEventOccurred(activity)
                             }
                     ) {
-                        Text(
-                            text = activity,
-                            modifier = Modifier.padding(16.dp)
-                        )
+                        Column() {
+                            Text(
+                                text = activity,
+                                modifier = Modifier.padding(16.dp)
+                            )
+
+                            FlowRow(
+                                modifier = Modifier.padding(
+                                    vertical = Spacing.spacing2,
+                                    horizontal = Spacing.spacing4
+                                ),
+                                maxItemsInEachRow = 3
+                            ) {
+                                sampleTags.forEach { text ->
+                                    Chip(
+                                        modifier = Modifier.padding(horizontal = 2.dp)
+                                            .background(color = sampleColors.random()),
+                                        onClick = { /* Handle click */ }
+                                    ) {
+                                        Text(text)
+                                    }
+                                }
+
+                            }
+                        }
+
                     }
                 }
             }

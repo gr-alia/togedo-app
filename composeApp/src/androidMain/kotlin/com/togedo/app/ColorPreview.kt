@@ -55,6 +55,12 @@ internal val Purple: Color = Color(0xFF5D2F77)
 internal val PinkIntense: Color = Color(0xFFE45A92)
 internal val Pink: Color = Color(0xFFFFACAC)
 
+internal val EarthYellow: Color = Color(0xFFEFB46E)
+internal val Verdigris: Color = Color(0xFF45B3AC)
+internal val Russet: Color = Color(0xFF824D34)
+internal val UtOrange: Color = Color(0xFFF98B29)
+internal val Alabaster: Color = Color(0xFFEAEBE0)
+
 @Immutable
 internal data class Colors(
     val primary: Color,

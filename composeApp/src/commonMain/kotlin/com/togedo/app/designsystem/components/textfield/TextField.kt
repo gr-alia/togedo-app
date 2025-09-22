@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.togedo.app.designsystem.AppTheme
+import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.components.textfield.base.CommonDecorationBox
 import com.togedo.app.designsystem.components.textfield.base.FocusedOutlineThickness
 import com.togedo.app.designsystem.components.textfield.base.HorizontalIconPadding
@@ -203,7 +204,7 @@ fun TextField(
 @Immutable
 object TextFieldDefaults {
     val MinHeight = TextFieldMinHeight
-    val Shape: Shape = RoundedCornerShape(24.dp)
+    val Shape: Shape = RoundedCornerShape(BorderRadius.roundedXl)
 
     private fun contentPadding(
         start: Dp = TextFieldHorizontalPadding,

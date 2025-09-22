@@ -40,7 +40,8 @@ object BorderRadius {
     val roundedSm = 8.dp
     val roundedMd = 12.dp
     val roundedLg = 16.dp
-    val roundedXl = 32.dp
+    val roundedXl = 24.dp
+    val roundedXxl = 32.dp
     val roundedFull = 9999.dp
 }
 

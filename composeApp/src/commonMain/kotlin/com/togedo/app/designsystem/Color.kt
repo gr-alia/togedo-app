@@ -57,6 +57,12 @@ val Purple: Color = Color(0xFF5D2F77)
 val PinkIntense: Color = Color(0xFFE45A92)
 val Pink: Color = Color(0xFFFFACAC)
 
+val EarthYellow: Color = Color(0xFFEFB46E)
+val Verdigris: Color = Color(0xFF45B3AC)
+val Russet: Color = Color(0xFF824D34)
+val UtOrange: Color = Color(0xFFF98B29)
+val Alabaster: Color = Color(0xFFEAEBE0)
+
 @Immutable
 data class Colors(
     val primary: Color,
@@ -84,7 +90,11 @@ data class Colors(
     val textDisabled: Color,
     val scrim: Color,
     val elevation: Color,
-    val brand: Color
+    val brandEarthYellow: Color,
+    val brandVerdigris: Color,
+    val brandRusset: Color,
+    val brandUtOrange: Color,
+    val brandAlabaster: Color
 )
 
 internal val LightColors =
@@ -114,7 +124,11 @@ internal val LightColors =
         textDisabled = Gray400,
         scrim = Color.Black.copy(alpha = 0.32f),
         elevation = Gray700,
-        brand = PurpleIntense
+        brandEarthYellow = EarthYellow,
+        brandVerdigris = Verdigris,
+        brandRusset = Russet,
+        brandUtOrange = UtOrange,
+        brandAlabaster = Alabaster
     )
 
 internal val DarkColors =
@@ -144,7 +158,11 @@ internal val DarkColors =
         textDisabled = Gray600,
         scrim = Color.Black.copy(alpha = 0.72f),
         elevation = Gray200,
-        brand = PurpleIntense
+        brandEarthYellow = EarthYellow,
+        brandVerdigris = Verdigris,
+        brandRusset = Russet,
+        brandUtOrange = UtOrange,
+        brandAlabaster = Alabaster
     )
 
 val LocalColors = staticCompositionLocalOf { LightColors }

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.togedo.app.designsystem.AppTheme
+import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.LocalTypography
 import com.togedo.app.designsystem.components.Surface
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -160,7 +161,7 @@ fun OutlinedCard(
 )
 
 object CardDefaults {
-    val Shape: Shape @Composable get() = RoundedCornerShape(12.0.dp)
+    val Shape: Shape @Composable get() = RoundedCornerShape(BorderRadius.roundedXl)
     val ElevatedShape: Shape @Composable get() = Shape
     val OutlinedShape: Shape @Composable get() = Shape
     private val BorderWidth = 1.dp
