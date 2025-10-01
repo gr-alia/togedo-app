@@ -43,7 +43,8 @@ fun Chip(
     onClick: () -> Unit = {},
     contentPadding: PaddingValues = ChipDefaults.contentPadding,
     shape: Shape = ChipRectShape,
-    style: = ChipDefaults.primaryFilled(shape),
+    // todo
+   // style: ChipStyle = ChipDefaults.primaryFilled(shape),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,

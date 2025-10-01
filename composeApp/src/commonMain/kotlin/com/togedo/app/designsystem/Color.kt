@@ -94,16 +94,24 @@ data class Colors(
     val brandVerdigris: Color,
     val brandRusset: Color,
     val brandUtOrange: Color,
-    val brandAlabaster: Color
+    val brandAlabaster: Color,
+    val featureSpecificStatusPlanning: Color,
+    val onFeatureSpecificStatusPlanning: Color,
+    val featureSpecificStatusPlanned: Color,
+    val onFeatureSpecificStatusPlanned: Color,
+    val featureSpecificStatusCanceled: Color,
+    val onFeatureSpecificStatusCanceled: Color,
+    val featureSpecificStatusDone: Color,
+    val onFeatureSpecificStatusDone: Color,
 )
 
 internal val LightColors =
     Colors(
         primary = Black,
         onPrimary = White,
-        secondary = Pink,
+        secondary = Verdigris,
         onSecondary = Black,
-        tertiary = Purple,
+        tertiary = UtOrange,
         onTertiary = White,
         surface = White,
         onSurface = Black,
@@ -128,16 +136,24 @@ internal val LightColors =
         brandVerdigris = Verdigris,
         brandRusset = Russet,
         brandUtOrange = UtOrange,
-        brandAlabaster = Alabaster
+        brandAlabaster = Alabaster,
+        featureSpecificStatusPlanning = Gray300,
+        onFeatureSpecificStatusPlanning = Gray900,
+        featureSpecificStatusPlanned = Blue300,
+        onFeatureSpecificStatusPlanned = Blue900,
+        featureSpecificStatusCanceled =Red300,
+        onFeatureSpecificStatusCanceled = Red900,
+        featureSpecificStatusDone = Green300,
+        onFeatureSpecificStatusDone = Green900
     )
 
 internal val DarkColors =
     Colors(
         primary = White,
         onPrimary = Black,
-        secondary = Pink,
+        secondary = Verdigris,
         onSecondary = Black,
-        tertiary = Purple,
+        tertiary = UtOrange,
         onTertiary = White,
         surface = Black,
         onSurface = White,
@@ -162,7 +178,15 @@ internal val DarkColors =
         brandVerdigris = Verdigris,
         brandRusset = Russet,
         brandUtOrange = UtOrange,
-        brandAlabaster = Alabaster
+        brandAlabaster = Alabaster,
+        featureSpecificStatusPlanning = Gray300,
+        onFeatureSpecificStatusPlanning = Gray900,
+        featureSpecificStatusPlanned = Blue300,
+        onFeatureSpecificStatusPlanned = Blue900,
+        featureSpecificStatusCanceled =Red300,
+        onFeatureSpecificStatusCanceled = Red900,
+        featureSpecificStatusDone = Green300,
+        onFeatureSpecificStatusDone = Green900
     )
 
 val LocalColors = staticCompositionLocalOf { LightColors }

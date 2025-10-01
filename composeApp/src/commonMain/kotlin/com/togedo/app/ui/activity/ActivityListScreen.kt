@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -24,11 +27,13 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.Chip
+import com.togedo.app.designsystem.components.ChipDefaults
 import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.card.Card
 import com.togedo.app.designsystem.components.textfield.TextField
 import compose.icons.FeatherIcons
+import compose.icons.feathericons.Circle
 import compose.icons.feathericons.Search
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -47,7 +52,7 @@ class ActivityListScreen : Screen {
 
         val sampleActivities = listOf(
             "Movie Night",
-            "Dinner at Italian Restaurant",
+            "Dinner at Italian Restaurant wearing fancy suits",
             "Hiking Trip",
             "Board Game Night",
             "Concert"
@@ -60,6 +65,20 @@ class ActivityListScreen : Screen {
             // "Chill",
             //  "Romantic",
             //   "Fancy",
+        )
+
+        val sampleStatuses = listOf(
+            "Planning",
+            "Planned",
+            "Canceled",
+            "Done"
+        )
+
+        val statusTextColors = listOf(
+            AppTheme.colors.onFeatureSpecificStatusPlanning,
+            AppTheme.colors.onFeatureSpecificStatusPlanned,
+            AppTheme.colors.onFeatureSpecificStatusCanceled,
+            AppTheme.colors.onFeatureSpecificStatusDone
         )
 
         val sampleColors = listOf(
@@ -115,10 +134,28 @@ class ActivityListScreen : Screen {
                             }
                     ) {
                         Column() {
-                            Text(
-                                text = activity,
-                                modifier = Modifier.padding(16.dp)
-                            )
+                            Row (
+                                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                                Text(
+                                    text = activity,
+                                    modifier = Modifier.weight(1f).padding(end = Spacing.spacing2)
+                                )
+                                Chip(
+                                    onClick = { /* Handle click */ },
+                                    leadingIcon = {
+                                        Icon(
+                                            FeatherIcons.Circle,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(ChipDefaults.ChipIconSize)
+                                        )
+                                    }
+                                ) {
+                                    Text(sampleStatuses.random(), color = statusTextColors.random())
+                                }
+                            }
+
 
                             FlowRow(
                                 modifier = Modifier.padding(
@@ -129,11 +166,10 @@ class ActivityListScreen : Screen {
                             ) {
                                 sampleTags.forEach { text ->
                                     Chip(
-                                        modifier = Modifier.padding(horizontal = 2.dp)
-                                            .background(color = sampleColors.random()),
+                                        modifier = Modifier.padding(horizontal = 2.dp),
                                         onClick = { /* Handle click */ }
                                     ) {
-                                        Text(text)
+                                        Text(text, color = sampleColors.random())
                                     }
                                 }
 
