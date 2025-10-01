@@ -1,4 +1,4 @@
-package com.togedo.app.ui.activity
+package com.togedo.app.ui.activity.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,10 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,6 +30,7 @@ import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.card.Card
 import com.togedo.app.designsystem.components.textfield.TextField
+import com.togedo.app.ui.activity.ActivityDetailsScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Circle
 import compose.icons.feathericons.Search
@@ -90,13 +89,13 @@ class ActivityListScreen : Screen {
         )
 
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .background(color = AppTheme.colors.background)
         ) {
 
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.Companion.fillMaxWidth()
             ) {
 
                 Text(
@@ -110,7 +109,7 @@ class ActivityListScreen : Screen {
 
 
             TextField(
-                modifier = Modifier.padding(horizontal = Spacing.spacing4),
+                modifier = Modifier.Companion.padding(horizontal = Spacing.spacing4),
                 value = search,
                 onValueChange = { search = it },
                 placeholder = { Text("Placeholder") },
@@ -122,25 +121,26 @@ class ActivityListScreen : Screen {
             )
 
             LazyColumn(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.Companion.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(sampleActivities) { activity ->
                     Card(
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .fillMaxWidth()
                             .clickable {
                                 onEventOccurred(activity)
                             }
                     ) {
                         Column() {
-                            Row (
-                                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ){
+                            Row(
+                                modifier = Modifier.Companion.fillMaxWidth().padding(16.dp),
+                                verticalAlignment = Alignment.Companion.CenterVertically
+                            ) {
                                 Text(
                                     text = activity,
-                                    modifier = Modifier.weight(1f).padding(end = Spacing.spacing2)
+                                    modifier = Modifier.Companion.weight(1f)
+                                        .padding(end = Spacing.spacing2)
                                 )
                                 Chip(
                                     onClick = { /* Handle click */ },
@@ -148,7 +148,7 @@ class ActivityListScreen : Screen {
                                         Icon(
                                             FeatherIcons.Circle,
                                             contentDescription = null,
-                                            modifier = Modifier.size(ChipDefaults.ChipIconSize)
+                                            modifier = Modifier.Companion.size(ChipDefaults.ChipIconSize)
                                         )
                                     }
                                 ) {
@@ -158,7 +158,7 @@ class ActivityListScreen : Screen {
 
 
                             FlowRow(
-                                modifier = Modifier.padding(
+                                modifier = Modifier.Companion.padding(
                                     vertical = Spacing.spacing2,
                                     horizontal = Spacing.spacing4
                                 ),
@@ -166,7 +166,7 @@ class ActivityListScreen : Screen {
                             ) {
                                 sampleTags.forEach { text ->
                                     Chip(
-                                        modifier = Modifier.padding(horizontal = 2.dp),
+                                        modifier = Modifier.Companion.padding(horizontal = 2.dp),
                                         onClick = { /* Handle click */ }
                                     ) {
                                         Text(text, color = sampleColors.random())

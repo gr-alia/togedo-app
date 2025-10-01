@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.togedo.app.ui.activity.ActivityListScreen
+import com.togedo.app.ui.activity.list.ActivityListScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Home
 
