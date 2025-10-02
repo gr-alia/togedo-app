@@ -45,6 +45,7 @@ The application uses Compose Multiplatform for shared UI across all platforms.
 - **Networking**: Ktor (v3.3.0) - for shared networking code
   - Platform-specific engines: OkHttp (Android/JVM), Darwin (iOS)
 - **Navigation**: Voyager (v1.1.0-beta03) - Navigator and TabNavigator for screen navigation
+- **State Holder**: Voyager (v1.1.0-beta03) - Voyager ScreenModel (alternative of Android's ViewModel)
 - **Serialization**: kotlinx.serialization (v1.9.0)
 - **State Storage**: KStore (v1.0.0) - multiplatform key-value storage
 - **Logging**: Kermit (v2.0.8)
