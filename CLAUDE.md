@@ -121,6 +121,6 @@ The project uses the Lumo UI plugin for design system management. Configuration 
 - Use Koin for dependency injection across all modules
 - Use Ktor for networking in shared code
 - Default to standard Gradle KMP setup with Kotlin DSL
-- Keep state management flexible (no enforced pattern unless specified)
+- Use state management as described in STATE_MANAGEMENT_GUIDE.md (Voyager's StateScreenModel with manual state management)
 - Place platform-specific code in expect/actual blocks
 - Prefer modern, stable libraries and APIs unless experimental features are explicitly requested
