@@ -124,3 +124,10 @@ The project uses the Lumo UI plugin for design system management. Configuration 
 - Use state management as described in STATE_MANAGEMENT_GUIDE.md (Voyager's StateScreenModel with manual state management)
 - Place platform-specific code in expect/actual blocks
 - Prefer modern, stable libraries and APIs unless experimental features are explicitly requested
+- Do NOT write code comments unless explicitly requested by the user - write self-documenting code with clear naming instead
+
+### Kotlin Companion Object Best Practices
+
+- **Accessing companion object members**: Access companion object functions and properties directly through the class name (e.g., `ClassName.function()`, `ClassName.property`)
+- **No separate import needed**: Importing a class automatically gives access to its companion object members - no separate companion object import required
+- **Callable references**: Create callable references to companion object members using `ClassName::memberName` syntax
