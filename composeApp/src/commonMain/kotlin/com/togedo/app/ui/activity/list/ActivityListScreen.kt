@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -106,7 +107,8 @@ class ActivityListScreen : Screen {
             }
 
             TextField(
-                modifier = Modifier.padding(horizontal = Spacing.spacing4),
+                modifier = Modifier.padding(horizontal = Spacing.spacing4)
+                    .padding(bottom = Spacing.spacing4),
                 value = state.searchQuery,
                 onValueChange = onSearchQueryChanged,
                 placeholder = { Text("Search activities...") },
@@ -162,7 +164,7 @@ class ActivityListScreen : Screen {
     ) {
 
         LazyColumn(
-            modifier = Modifier.padding(Spacing.spacing4),
+           modifier =  Modifier.padding(horizontal = Spacing.spacing4),
             verticalArrangement = Arrangement.spacedBy(Spacing.spacing2)
         ) {
             items(
