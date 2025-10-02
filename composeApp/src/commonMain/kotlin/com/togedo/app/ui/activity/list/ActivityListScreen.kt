@@ -163,8 +163,8 @@ class ActivityListScreen : Screen {
     ) {
 
         LazyColumn(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.padding(Spacing.spacing4),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing2)
         ) {
             items(
                 items = activities,
@@ -204,7 +204,7 @@ class ActivityListScreen : Screen {
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(top = Spacing.spacing4, start = Spacing.spacing4, end = Spacing.spacing4),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(
@@ -216,13 +216,6 @@ class ActivityListScreen : Screen {
                             text = activity.title,
                             style = AppTheme.typography.h4
                         )
-                        if (activity.description.isNotBlank()) {
-                            Text(
-                                text = activity.description,
-                                style = AppTheme.typography.body2,
-                                modifier = Modifier.padding(top = 4.dp)
-                            )
-                        }
                     }
                     Chip(
                         onClick = { /* Handle status click */ },
@@ -238,18 +231,31 @@ class ActivityListScreen : Screen {
                     }
                 }
 
+                if (activity.description.isNotBlank()) {
+                    Text(
+                        text = activity.description,
+                        style = AppTheme.typography.body2,
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = Spacing.spacing1, start = Spacing.spacing4, end = Spacing.spacing4),
+                    )
+                }
+
                 FlowRow(
                     modifier = Modifier.padding(
-                        vertical = Spacing.spacing2,
-                        horizontal = Spacing.spacing4
+                        top = Spacing.spacing4,
+                        bottom = Spacing.spacing2,
+                        start = Spacing.spacing4,
+                        end = Spacing.spacing4
                     ),
                     maxItemsInEachRow = 3
                 ) {
-                    Chip(
-                        modifier = Modifier.padding(horizontal = 2.dp),
-                        onClick = { /* Handle tag click */ }
-                    ) {
-                        Text(activity.tag.name)
+                    activity.tags.take(5).forEach { tag ->
+                        Chip(
+                            modifier = Modifier.padding(horizontal = Spacing.spacing1),
+                            onClick = { /* Handle tag click */ }
+                        ) {
+                            Text(tag.name)
+                        }
                     }
                 }
             }
@@ -267,14 +273,21 @@ class ActivityListScreen : Screen {
                             id = "1",
                             title = "Movie Night",
                             description = "Watch a classic film",
-                            tag = ActivityUiModel.ActivityTag.Fun,
+                            tags = listOf(
+                                ActivityUiModel.ActivityTag.Fun,
+                                ActivityUiModel.ActivityTag.Chill,
+                                ActivityUiModel.ActivityTag.Romantic
+                            ),
                             status = ActivityUiModel.ActivityStatus.Planned
                         ),
                         ActivityUiModel(
                             id = "2",
                             title = "Fancy Dinner",
                             description = "Watch a classic film",
-                            tag = ActivityUiModel.ActivityTag.Fun,
+                            tags = listOf(
+                                ActivityUiModel.ActivityTag.Fancy,
+                                ActivityUiModel.ActivityTag.Romantic
+                            ),
                             status = ActivityUiModel.ActivityStatus.Planned
                         )
                     )

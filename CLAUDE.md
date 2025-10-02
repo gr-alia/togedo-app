@@ -125,6 +125,7 @@ The project uses the Lumo UI plugin for design system management. Configuration 
 - Place platform-specific code in expect/actual blocks
 - Prefer modern, stable libraries and APIs unless experimental features are explicitly requested
 - Do NOT write code comments unless explicitly requested by the user - write self-documenting code with clear naming instead
+- **Spacing**: Always use constants from `Spacing` object (`composeApp/src/commonMain/kotlin/com/togedo/app/designsystem/ThemeObjects.kt`) for padding modifiers instead of hardcoded dp values (e.g., use `Spacing.spacing4` instead of `16.dp`)
 
 ### Kotlin Code Style and Best Practices
 

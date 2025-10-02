@@ -4,7 +4,7 @@ data class ActivityUiModel(
     val id: String,
     val title: String,
     val description: String,
-    val tag: ActivityTag,
+    val tags: List<ActivityTag>,
     val status: ActivityStatus,
 ){
     enum class ActivityTag {
