@@ -126,8 +126,62 @@ The project uses the Lumo UI plugin for design system management. Configuration 
 - Prefer modern, stable libraries and APIs unless experimental features are explicitly requested
 - Do NOT write code comments unless explicitly requested by the user - write self-documenting code with clear naming instead
 
+### Kotlin Code Style and Best Practices
+
+Follow official Kotlin coding conventions for consistency and readability:
+
+#### Naming Conventions
+
+- **Classes**: PascalCase, use nouns or noun phrases (e.g., `List`, `PersonReader`, `ActivityViewModel`)
+- **Functions**: camelCase starting with lowercase, use verbs or verb phrases (e.g., `close()`, `readPersons()`, `processDeclarations()`)
+- **Properties**: camelCase starting with lowercase (e.g., `declarationCount`, `userName`)
+- **Constants**: SCREAMING_SNAKE_CASE for `const val` and immutable top-level/object properties (e.g., `MAX_COUNT`, `USER_NAME_FIELD`)
+- **Enum constants**: Upper camel case (e.g., `enum class Direction { North, South, East, West }`)
+- **Backing properties**: Prefix with underscore (e.g., `private val _elementList`, `val elementList: List<Element> get() = _elementList`)
+- **Factory functions**: Use the return type's name (e.g., `fun Foo(): Foo = FooImpl()`)
+- **Acronyms**: 2-letter all uppercase (`IOStream`), 3+ only capitalize first letter (`XmlFormatter`, `HttpInputStream`)
+- **Test methods**: Can use backticks with spaces `@Test fun \`ensure everything works\`()` or underscores `ensureEverythingWorks_onAndroid()`
+- **Avoid vague names**: Don't use `Manager`, `Wrapper`, `Processor` without clear context
+
+#### Formatting
+
+- **Indentation**: Use 4 spaces, never tabs
+- **Braces**: Opening brace at end of line, closing brace on new line aligned with construct
+- **Semicolons**: Omit semicolons whenever possible
+- **Expression bodies**: Use for single expression functions (`fun foo() = 1` instead of `fun foo() { return 1 }`)
+- **Unit return type**: Omit `: Unit` when function returns Unit
+- **Nullable types**: No space before `?` (e.g., `val text: String?`)
+- **Spaces**: Around binary operators (`a + b`), after control flow keywords (`if (condition)`), no space before method/constructor parentheses
+- **Trailing commas**: Use for multiline declarations (parameters, arguments, destructuring, etc.)
+- **String templates**: Use curly braces for expressions (`"$name has ${children.size} children"`)
+- **Multiline strings**: Use `trimIndent()` or `trimMargin()` for proper indentation
+
+#### Code Structure
+
+- **Immutability**: Prefer immutable collections (`List`, `Set`) over mutable types (`ArrayList`, `HashSet`)
+- **Expression form**: Use expression form for conditionals when possible (`return if (x) foo() else bar()`)
+- **Default parameters**: Use default parameters instead of declaring multiple overloads
+- **Named arguments**: Use for multiple parameters of same type or when meaning is unclear (`drawSquare(x = 10, y = 10, width = 100, height = 100, fill = true)`)
+- **Range operators**: Use `0..<n` for loops instead of `0..n-1` to avoid off-by-one errors
+- **Lambda formatting**: Place parameters on first line with arrow, or on separate lines for long parameter lists
+- **Chained calls**: Place `.` or `?.` on next line with single indent
+- **Class headers**: Use multiline format for long headers, inheritance, or multiple interfaces
+
+#### Documentation
+
+- **Single-line comments**: `/** This is a short documentation comment. */`
+- **Multi-line comments**: Start `/**` on new line, each line begins with `*`
+- **Parameter documentation**: Embed inline with `[paramName]` links instead of `@param` tags (e.g., `/** Returns the absolute value of the given [number]. */`)
+- **Avoid redundant tags**: Don't use `@param` and `@return` unless descriptions are lengthy
+
+#### Multiplatform Specific
+
+- **File naming**: Use platform suffix for platform-specific top-level declarations (e.g., `Platform.jvm.kt`, `Platform.android.kt`, `Platform.ios.kt`, `Platform.kt` for common)
+- **Expect/actual**: Place `expect` in `commonMain`, `actual` in platform-specific source sets
+
 ### Kotlin Companion Object Best Practices
 
 - **Accessing companion object members**: Access companion object functions and properties directly through the class name (e.g., `ClassName.function()`, `ClassName.property`)
 - **No separate import needed**: Importing a class automatically gives access to its companion object members - no separate companion object import required
 - **Callable references**: Create callable references to companion object members using `ClassName::memberName` syntax
+
