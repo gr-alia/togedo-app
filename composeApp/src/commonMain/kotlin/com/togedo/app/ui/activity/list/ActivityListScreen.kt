@@ -18,7 +18,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -204,8 +203,11 @@ class ActivityListScreen : Screen {
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(top = Spacing.spacing4, start = Spacing.spacing4, end = Spacing.spacing4),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(
+                            top = Spacing.spacing4,
+                            start = Spacing.spacing4,
+                            end = Spacing.spacing4
+                        ),
                 ) {
                     Column(
                         modifier = Modifier
@@ -236,7 +238,11 @@ class ActivityListScreen : Screen {
                         text = activity.description,
                         style = AppTheme.typography.body2,
                         modifier = Modifier.fillMaxWidth()
-                            .padding(top = Spacing.spacing1, start = Spacing.spacing4, end = Spacing.spacing4),
+                            .padding(
+                                top = Spacing.spacing1,
+                                start = Spacing.spacing4,
+                                end = Spacing.spacing4
+                            ),
                     )
                 }
 
@@ -282,7 +288,7 @@ class ActivityListScreen : Screen {
                         ),
                         ActivityUiModel(
                             id = "2",
-                            title = "Fancy Dinner",
+                            title = "Fancy Dinner at Italian Restaurant wearing suits",
                             description = "Watch a classic film",
                             tags = listOf(
                                 ActivityUiModel.ActivityTag.Fancy,
@@ -318,6 +324,7 @@ class ActivityListScreen : Screen {
         }
     }
 
+    @Preview
     @Composable
     fun ActivityListLoadingPreview() {
         AppTheme {
