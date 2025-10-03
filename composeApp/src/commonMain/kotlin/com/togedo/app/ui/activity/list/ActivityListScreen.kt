@@ -72,7 +72,8 @@ class ActivityListScreen : Screen {
             if (state.searchQuery.isNotBlank()) {
                 filtered = filtered.filter {
                     it.title.contains(state.searchQuery, ignoreCase = true) ||
-                            it.description.contains(state.searchQuery, ignoreCase = true)
+                            it.description.contains(state.searchQuery, ignoreCase = true) ||
+                            it.tags.any { tag -> tag.name.contains(state.searchQuery, ignoreCase = true) }
                 }
             }
 
@@ -111,7 +112,7 @@ class ActivityListScreen : Screen {
                     .padding(bottom = Spacing.spacing4),
                 value = state.searchQuery,
                 onValueChange = onSearchQueryChanged,
-                placeholder = { Text("Search activities...") },
+                placeholder = { Text("Search by title, description, or tags...") },
                 leadingIcon = {
                     Icon(
                         imageVector = FeatherIcons.Search
