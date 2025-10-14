@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.togedo.app.ui.activity.CreateActivityScreen
+import com.togedo.app.ui.activity.add.AddActivityScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Plus
 
@@ -23,6 +23,6 @@ object CreateTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(CreateActivityScreen())
+        Navigator(AddActivityScreen())
     }
 }
