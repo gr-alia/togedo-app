@@ -42,9 +42,8 @@ fun Chip(
     selected: Boolean = false,
     onClick: () -> Unit = {},
     contentPadding: PaddingValues = ChipDefaults.contentPadding,
-    shape: Shape = ChipRectShape,
-    // todo
-   // style: ChipStyle = ChipDefaults.primaryFilled(shape),
+    shape: Shape = ChipDefaults.shape,
+    colors: ChipColors = ChipDefaults.chipColors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -55,6 +54,7 @@ fun Chip(
         enabled = enabled,
         selected = selected,
         style = ChipDefaults.primaryFilled(shape),
+        colors = colors,
         onClick = onClick,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
@@ -71,7 +71,8 @@ fun ElevatedChip(
     selected: Boolean = false,
     onClick: () -> Unit = {},
     contentPadding: PaddingValues = ChipDefaults.contentPadding,
-    shape: Shape = ChipRectShape,
+    shape: Shape = ChipDefaults.shape,
+    colors: ChipColors = ChipDefaults.chipColors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -82,6 +83,7 @@ fun ElevatedChip(
         enabled = enabled,
         selected = selected,
         style = ChipDefaults.primaryElevated(shape),
+        colors = colors,
         onClick = onClick,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
@@ -98,7 +100,8 @@ fun OutlinedChip(
     selected: Boolean = false,
     onClick: () -> Unit = {},
     contentPadding: PaddingValues = ChipDefaults.contentPadding,
-    shape: Shape = ChipRectShape,
+    shape: Shape = ChipDefaults.shape,
+    colors: ChipColors = ChipDefaults.outlinedChipColors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -109,6 +112,7 @@ fun OutlinedChip(
         enabled = enabled,
         selected = selected,
         style = ChipDefaults.primaryOutlined(shape),
+        colors = colors,
         onClick = onClick,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
@@ -124,6 +128,7 @@ private fun ChipComponent(
     enabled: Boolean = true,
     selected: Boolean = false,
     style: ChipStyle,
+    colors: ChipColors,
     onClick: () -> Unit,
     contentPadding: PaddingValues = ChipDefaults.contentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -131,9 +136,9 @@ private fun ChipComponent(
     trailingIcon: @Composable (() -> Unit)? = null,
     label: @Composable () -> Unit,
 ) {
-    val containerColor = style.colors.containerColor(enabled, selected).value
-    val contentColor = style.colors.contentColor(enabled, selected).value
-    val borderColor = style.colors.borderColor(enabled, selected).value
+    val containerColor = colors.containerColor(enabled, selected).value
+    val contentColor = colors.contentColor(enabled, selected).value
+    val borderColor = colors.borderColor(enabled, selected).value
     val borderStroke =
         if (borderColor != null) {
             BorderStroke(
@@ -203,8 +208,7 @@ private fun DefaultChipComponent(
         }
     }
 }
-
-internal object ChipDefaults {
+ object ChipDefaults {
     private val ChipPaddingHorizontal = 6.dp
     private val ChipPaddingVertical = 6.dp
     val ChipRectShape = RoundedCornerShape(BorderRadius.roundedMd)
@@ -220,10 +224,14 @@ internal object ChipDefaults {
             bottom = ChipPaddingVertical,
         )
 
+    val shape: Shape = ChipRectShape
+
     @Composable
     fun chipColors(
         containerColor: Color = Color.Unspecified,
         contentColor: Color = Color.Unspecified,
+        selectedContainerColor: Color = Color.Unspecified,
+        selectedContentColor: Color = Color.Unspecified,
         disabledContainerColor: Color = Color.Unspecified,
         disabledContentColor: Color = Color.Unspecified,
     ): ChipColors =
@@ -234,6 +242,24 @@ internal object ChipDefaults {
             selectedContentColor = AppTheme.colors.onPrimary,
             disabledContainerColor = AppTheme.colors.disabled,
             disabledContentColor = AppTheme.colors.onDisabled,
+        )
+
+     @Composable
+    fun outlinedChipColors(
+        containerColor: Color = Color.Unspecified,
+        contentColor: Color = Color.Unspecified,
+        selectedContainerColor: Color = Color.Unspecified,
+        selectedContentColor: Color = Color.Unspecified,
+        disabledContainerColor: Color = Color.Unspecified,
+        disabledContentColor: Color = Color.Unspecified,
+    ): ChipColors =
+         chipColors().copy(
+            containerColor = AppTheme.colors.transparent,
+            contentColor = AppTheme.colors.primary,
+            outlineColor = AppTheme.colors.primary,
+            selectedOutlineColor = AppTheme.colors.primary,
+            disabledContainerColor = AppTheme.colors.transparent,
+            disabledOutlineColor = AppTheme.colors.disabled,
         )
 
     @Composable
@@ -249,40 +275,28 @@ internal object ChipDefaults {
     @Composable
     fun primaryFilled(shape: Shape) =
         ChipStyle(
-            colors = chipColors(),
             shape = shape,
             elevation = null,
-            contentPadding = contentPadding,
         )
 
     @Composable
     fun primaryElevated(shape: Shape) =
         ChipStyle(
-            colors = chipColors(),
             shape = shape,
             elevation = chipElevation(),
-            contentPadding = contentPadding,
         )
 
     @Composable
     fun primaryOutlined(shape: Shape) =
         ChipStyle(
-            colors = chipColors().copy(
-                containerColor = AppTheme.colors.transparent,
-                contentColor = AppTheme.colors.primary,
-                outlineColor = AppTheme.colors.primary,
-                selectedOutlineColor = AppTheme.colors.primary,
-                disabledContainerColor = AppTheme.colors.transparent,
-                disabledOutlineColor = AppTheme.colors.disabled,
-            ),
             shape = shape,
             elevation = null,
-            contentPadding = contentPadding,
         )
 }
 
 @Immutable
-internal data class ChipColors(
+ data class ChipColors
+internal constructor(
     val containerColor: Color,
     val contentColor: Color,
     val outlineColor: Color? = null,
@@ -328,11 +342,10 @@ internal data class ChipColors(
 }
 
 @Immutable
-internal data class ChipStyle(
-    val colors: ChipColors,
+ data class ChipStyle
+internal constructor(
     val shape: Shape,
-    val elevation: ButtonElevation? = null,
-    val contentPadding: PaddingValues,
+    val elevation: ButtonElevation? = null
 )
 
 @Composable

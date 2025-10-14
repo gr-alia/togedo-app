@@ -5,7 +5,7 @@ data class ActivityListState(
     val searchQuery: String = "",
     val isLoading: Boolean = false,
     val error: String? = null,
-    val selectedFilter: ActivityFilter? = null
+    val selectedFilter: ActivityUiModel.ActivityStatus? = null
 )
 
 enum class ActivityFilter {

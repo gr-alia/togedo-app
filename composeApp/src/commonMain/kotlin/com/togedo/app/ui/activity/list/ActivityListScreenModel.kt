@@ -38,7 +38,7 @@ class ActivityListScreenModel : StateScreenModel<ActivityListState>(ActivityList
         mutableState.value = state.value.copy(searchQuery = query)
     }
 
-    fun filterByStatus(filter: ActivityFilter?) {
+    fun filterByStatus(filter: ActivityUiModel.ActivityStatus?) {
         mutableState.value = state.value.copy(selectedFilter = filter)
     }
 
@@ -55,31 +55,6 @@ class ActivityListScreenModel : StateScreenModel<ActivityListState>(ActivityList
                 )
             }
         }
-    }
-
-    fun getFilteredActivities(): List<ActivityUiModel> {
-        val currentState = state.value
-        var filtered = currentState.activities
-
-        if (currentState.searchQuery.isNotBlank()) {
-            filtered = filtered.filter {
-                it.title.contains(currentState.searchQuery, ignoreCase = true) ||
-                        it.description.contains(currentState.searchQuery, ignoreCase = true)
-            }
-        }
-
-        currentState.selectedFilter?.let { filter ->
-            filtered = filtered.filter { activity ->
-                when (filter) {
-                    ActivityFilter.Idea -> activity.status == ActivityUiModel.ActivityStatus.Idea
-                    ActivityFilter.Planned -> activity.status == ActivityUiModel.ActivityStatus.Planned
-                    ActivityFilter.Canceled -> activity.status == ActivityUiModel.ActivityStatus.Canceled
-                    ActivityFilter.Done -> activity.status == ActivityUiModel.ActivityStatus.Done
-                }
-            }
-        }
-
-        return filtered
     }
 
     private fun getSampleActivities(): List<ActivityUiModel> {

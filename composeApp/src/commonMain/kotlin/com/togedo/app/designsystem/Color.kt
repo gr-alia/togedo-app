@@ -137,13 +137,13 @@ internal val LightColors =
         brandRusset = Russet,
         brandUtOrange = UtOrange,
         brandAlabaster = Alabaster,
-        featureSpecificStatusPlanning = Gray300,
+        featureSpecificStatusPlanning = Gray100,
         onFeatureSpecificStatusPlanning = Gray900,
-        featureSpecificStatusPlanned = Blue300,
+        featureSpecificStatusPlanned = Blue100,
         onFeatureSpecificStatusPlanned = Blue900,
-        featureSpecificStatusCanceled =Red300,
+        featureSpecificStatusCanceled =Red100,
         onFeatureSpecificStatusCanceled = Red900,
-        featureSpecificStatusDone = Green300,
+        featureSpecificStatusDone = Green100,
         onFeatureSpecificStatusDone = Green900
     )
 
@@ -179,13 +179,13 @@ internal val DarkColors =
         brandRusset = Russet,
         brandUtOrange = UtOrange,
         brandAlabaster = Alabaster,
-        featureSpecificStatusPlanning = Gray300,
+        featureSpecificStatusPlanning = Gray100,
         onFeatureSpecificStatusPlanning = Gray900,
-        featureSpecificStatusPlanned = Blue300,
+        featureSpecificStatusPlanned = Blue100,
         onFeatureSpecificStatusPlanned = Blue900,
-        featureSpecificStatusCanceled =Red300,
+        featureSpecificStatusCanceled =Red100,
         onFeatureSpecificStatusCanceled = Red900,
-        featureSpecificStatusDone = Green300,
+        featureSpecificStatusDone = Green100,
         onFeatureSpecificStatusDone = Green900
     )
 
