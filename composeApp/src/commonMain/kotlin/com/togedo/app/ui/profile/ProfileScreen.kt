@@ -1,32 +1,57 @@
 package com.togedo.app.ui.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
-import com.togedo.app.designsystem.components.*
+import com.togedo.app.designsystem.components.Icon
+import com.togedo.app.designsystem.components.Surface
+import com.togedo.app.designsystem.components.Text
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.*
+import compose.icons.feathericons.Award
+import compose.icons.feathericons.Calendar
+import compose.icons.feathericons.Check
+import compose.icons.feathericons.ChevronRight
+import compose.icons.feathericons.Edit2
+import compose.icons.feathericons.Heart
+import compose.icons.feathericons.MapPin
+import compose.icons.feathericons.Plus
+import compose.icons.feathericons.Settings
+import compose.icons.feathericons.Star
+import compose.icons.feathericons.User
 
 class ProfileScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { ProfileScreenModel() }
+        val screenModel = koinScreenModel<ProfileScreenModel>()
         val state by screenModel.state.collectAsState()
         val scrollState = rememberScrollState()
 

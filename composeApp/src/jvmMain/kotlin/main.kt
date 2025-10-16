@@ -4,6 +4,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
 import com.togedo.app.App
+import com.togedo.app.di.initKoin
 
 fun main() = application {
     Window(
@@ -12,6 +13,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
     ) {
         window.minimumSize = Dimension(350, 600)
+
+        initKoin()
         App()
     }
 }

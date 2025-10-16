@@ -26,8 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
@@ -55,7 +55,8 @@ class ActivityListScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { ActivityListScreenModel() }
+
+        val screenModel = koinScreenModel<ActivityListScreenModel>()
         val state by screenModel.state.collectAsState()
 
         ActivityListContent(
@@ -515,25 +516,25 @@ class ActivityListScreen : Screen {
                                 style = AppTheme.typography.label2
                             )
                         }
-                      /*  Chip(
-                            onClick = { },
-                            leadingIcon = {
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .background(
-                                            activity.status.statusColor,
-                                            shape = androidx.compose.foundation.shape.CircleShape
-                                        )
-                                )
-                            }
-                        ) {
-                            Text(
-                                text = statusText,
-                                style = AppTheme.typography.label2,
-                                color = activity.status.statusColor
-                            )
-                        }*/
+                        /*  Chip(
+                              onClick = { },
+                              leadingIcon = {
+                                  Box(
+                                      modifier = Modifier
+                                          .size(8.dp)
+                                          .background(
+                                              activity.status.statusColor,
+                                              shape = androidx.compose.foundation.shape.CircleShape
+                                          )
+                                  )
+                              }
+                          ) {
+                              Text(
+                                  text = statusText,
+                                  style = AppTheme.typography.label2,
+                                  color = activity.status.statusColor
+                              )
+                          }*/
                     }
 
                     if (activity.description.isNotBlank()) {

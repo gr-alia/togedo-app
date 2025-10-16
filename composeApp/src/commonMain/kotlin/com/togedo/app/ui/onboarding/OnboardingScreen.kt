@@ -20,8 +20,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.Button
@@ -37,7 +37,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 class OnboardingScreen : Screen {
     @Composable
     override fun Content() {
-        val screenModel = rememberScreenModel { OnboardingScreenModel() }
+        val screenModel = koinScreenModel<OnboardingScreenModel>()
         val state by screenModel.state.collectAsState()
 
         OnboardingScreenContent(

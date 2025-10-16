@@ -24,12 +24,14 @@ import com.togedo.app.ui.activity.list.ActivityUiModel
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.*
 import androidx.compose.foundation.text.KeyboardOptions
+import cafe.adriel.voyager.koin.koinScreenModel
+import com.togedo.app.ui.activity.list.ActivityListScreenModel
 
 class AddActivityScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { AddActivityScreenModel() }
+        val screenModel = koinScreenModel<AddActivityScreenModel>()
         val state by screenModel.state.collectAsState()
 
         LaunchedEffect(state.showSuccessMessage) {
