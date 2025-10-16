@@ -8,6 +8,10 @@ class OnboardingScreenModel : StateScreenModel<OnboardingScreenModel.State>(Stat
 
     data class State(
         val currentPage: Int = 0,
+        val pages: List<OnboardingPageUiModel> = listOf(
+            OnboardingPageUiModel(0), OnboardingPageUiModel(1),
+            OnboardingPageUiModel(2)
+        )
     )
 
     fun onPageChanged(page: Int) {

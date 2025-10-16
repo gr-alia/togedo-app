@@ -4,4 +4,22 @@
     <string name="run">Run</string>
     <string name="stop">Stop</string>
     <string name="theme">Theme</string>
+
+    <!-- Onboarding Screen 1 -->
+    <string name="onboarding_screen1_title">Plan together — live brighter 💫</string>
+    <string name="onboarding_screen1_description_line1">Dream it. Add it.</string>
+    <string name="onboarding_screen1_description_line2">Make your shared plans real — one idea at a time.</string>
+
+    <!-- Onboarding Screen 2 -->
+    <string name="onboarding_screen2_title">From dreams to action 🚀</string>
+    <string name="onboarding_screen2_description_line1">Turn “someday” into today.</string>
+    <string name="onboarding_screen2_description_line2">Track your steps and celebrate progress together.</string>
+
+    <!-- Onboarding Screen 3 -->
+    <string name="onboarding_screen3_title">Keep your hearts in sync 💞</string>
+    <string name="onboarding_screen3_description_line1">Cherish your moments, cheer each other on, and grow together.</string>
+    <string name="onboarding_screen3_description_line2">Togedo is your little space for love and connection.</string>
+
+    <!-- Common -->
+    <string name="onboarding_button_get_started">Get started</string>
 </resources>
