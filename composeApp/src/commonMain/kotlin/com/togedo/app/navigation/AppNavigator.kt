@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun AppNavigator() {
-    val isLoggedIn = true // TODO: Replace with actual auth state
-    
-    if (isLoggedIn) {
-        MainFlow()
-    } else {
-        AuthFlow()
+    val isLoggedIn = false // TODO: Replace with actual auth state
+    val isOnboardingShown = false // TODO: Replace with actual auth state
+
+    when {
+        isLoggedIn -> MainFlow()
+        isOnboardingShown -> AuthFlow()
+        else -> OnboardingFlow()
     }
 }

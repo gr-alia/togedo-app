@@ -55,6 +55,7 @@ internal val Purple: Color = Color(0xFF5D2F77)
 internal val PinkIntense: Color = Color(0xFFE45A92)
 internal val Pink: Color = Color(0xFFFFACAC)
 
+internal val BlackPrimary: Color = Color(0xFF121212)
 internal val EarthYellow: Color = Color(0xFFEFB46E)
 internal val Verdigris: Color = Color(0xFF45B3AC)
 internal val Russet: Color = Color(0xFF824D34)

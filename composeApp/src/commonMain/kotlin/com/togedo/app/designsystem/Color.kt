@@ -57,6 +57,7 @@ val Purple: Color = Color(0xFF5D2F77)
 val PinkIntense: Color = Color(0xFFE45A92)
 val Pink: Color = Color(0xFFFFACAC)
 
+val BlackPrimary: Color = Color(0xFF121212)
 val EarthYellow: Color = Color(0xFFEFB46E)
 val Verdigris: Color = Color(0xFF45B3AC)
 val Russet: Color = Color(0xFF824D34)
@@ -107,7 +108,7 @@ data class Colors(
 
 internal val LightColors =
     Colors(
-        primary = Black,
+        primary = BlackPrimary,
         onPrimary = White,
         secondary = Verdigris,
         onSecondary = Black,
@@ -149,7 +150,7 @@ internal val LightColors =
 
 internal val DarkColors =
     Colors(
-        primary = White,
+        primary = Alabaster,
         onPrimary = Black,
         secondary = Verdigris,
         onSecondary = Black,
