@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.togedo.app.designsystem.AppTheme
+import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.LocalContentColor
 import com.togedo.app.designsystem.foundation.ButtonElevation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -190,7 +191,7 @@ internal object ButtonDefaults {
     internal val OutlineHeight = 1.dp
     private val ButtonHorizontalPadding = 16.dp
     private val ButtonVerticalPadding = 8.dp
-    private val ButtonShape = RoundedCornerShape(12)
+    private val ButtonShape = RoundedCornerShape(BorderRadius.roundedXl)
 
     val contentPadding =
         PaddingValues(
