@@ -104,7 +104,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 26
         targetSdk = 35
 
         applicationId = "com.togedo.app.androidApp"
