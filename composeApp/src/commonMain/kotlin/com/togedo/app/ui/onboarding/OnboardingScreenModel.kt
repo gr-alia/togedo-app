@@ -2,6 +2,8 @@ package com.togedo.app.ui.onboarding
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import cafe.adriel.voyager.navigator.Navigator
+import com.togedo.app.ui.auth.LoginScreen
 import kotlinx.coroutines.launch
 
 class OnboardingScreenModel : StateScreenModel<OnboardingScreenModel.State>(State()) {
@@ -20,12 +22,12 @@ class OnboardingScreenModel : StateScreenModel<OnboardingScreenModel.State>(Stat
         }
     }
 
-    fun onSkip() {
-        // TODO: Navigate to main flow
+    fun onSkip(navigator: Navigator) {
+        navigator.push(LoginScreen())
     }
 
-    fun onStart() {
-        // TODO: Navigate to main flow
+    fun onStart(navigator: Navigator) {
+        navigator.push(LoginScreen())
     }
 
     fun onNextPage() {

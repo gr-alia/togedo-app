@@ -24,7 +24,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
+import com.togedo.app.ui.auth.LoginScreen
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.ButtonVariant
@@ -42,14 +45,15 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 class OnboardingScreen : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val screenModel = koinScreenModel<OnboardingScreenModel>()
         val state by screenModel.state.collectAsState()
 
         OnboardingScreenContent(
             state = state,
             onPageChanged = screenModel::onPageChanged,
-            onSkip = screenModel::onSkip,
-            onStart = screenModel::onStart,
+            onSkip = { screenModel.onSkip(navigator) },
+            onStart = { screenModel.onStart(navigator) },
             onNextPage = screenModel::onNextPage,
             onPreviousPage = screenModel::onPreviousPage,
         )
