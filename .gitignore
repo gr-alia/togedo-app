@@ -38,7 +38,6 @@ render.experimental.xml
 
 # Xcode Files
 xcuserdata/
-Pods/
 
 # Web target
 *yarn.lock
