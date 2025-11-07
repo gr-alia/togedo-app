@@ -61,3 +61,4 @@ hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 lumo-ui = { id = "com.nomanr.plugin.lumo", version.ref = "lumo-ui" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }

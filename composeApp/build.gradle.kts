@@ -6,6 +6,7 @@ import org.jetbrains.compose.reload.gradle.ComposeHotRun
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -16,6 +17,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.lumo.ui)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -31,15 +33,26 @@ kotlin {
         binaries.executable()
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        // This is the version of shared Kotlin module that iOS will use
+        version = "1.0.0"
+        summary = "Togedo shared business logic and UI"
+        homepage = "https://github.com/gr-alia/togedo-app"
+        ios.deploymentTarget = "16.2"
+        podfile = project.file("../iosApp/Podfile")
+
+        framework {
             baseName = "ComposeApp"
             isStatic = true
         }
+
+        // Maps custom Xcode configuration to NativeBuildType
+        xcodeConfigurationToNativeBuildType["CUSTOM_DEBUG"] = NativeBuildType.DEBUG
+        xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
     }
 
     sourceSets {
