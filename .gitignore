@@ -39,6 +39,10 @@ render.experimental.xml
 # Xcode Files
 xcuserdata/
 
+# Firebase config files
+google-services.json
+GoogleService-Info.plist
+
 # Web target
 *yarn.lock
 
