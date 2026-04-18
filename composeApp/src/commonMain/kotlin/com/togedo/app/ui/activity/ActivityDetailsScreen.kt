@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +36,6 @@ import com.togedo.app.designsystem.components.ButtonVariant
 import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.Surface
 import com.togedo.app.designsystem.components.Text
-import com.togedo.app.ui.activity.list.ActivityUiModel
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.ArrowLeft
 import compose.icons.feathericons.Calendar
@@ -233,9 +231,17 @@ private fun AttributionRow() {
     Row(verticalAlignment = Alignment.CenterVertically) {
         // Overlapping avatars
         Box {
-            Avatar(initial = "E", bgColor = AppTheme.colors.primary, textColor = AppTheme.colors.onPrimary)
+            Avatar(
+                initial = "E",
+                bgColor = AppTheme.colors.primary,
+                textColor = AppTheme.colors.onPrimary
+            )
             Box(modifier = Modifier.offset(x = 22.dp)) {
-                Avatar(initial = "J", bgColor = AppTheme.colors.tertiary, textColor = AppTheme.colors.onTertiary)
+                Avatar(
+                    initial = "J",
+                    bgColor = AppTheme.colors.tertiary,
+                    textColor = AppTheme.colors.onTertiary
+                )
             }
         }
 
@@ -289,19 +295,37 @@ private fun DetailRowsCard() {
             .padding(horizontal = Spacing.spacing4),
     ) {
         DetailRow(
-            icon = { Icon(FeatherIcons.MapPin, null, tint = primary, modifier = Modifier.size(18.dp)) },
+            icon = {
+                Icon(
+                    imageVector = FeatherIcons.MapPin,
+                    tint = primary,
+                    modifier = Modifier.size(18.dp)
+                )
+            },
             label = "Eidsvold park, west entrance",
             sub = "Tap to open in Maps",
             divider = false,
         )
         DetailRow(
-            icon = { Icon(FeatherIcons.Calendar, null, tint = primary, modifier = Modifier.size(18.dp)) },
+            icon = {
+                Icon(
+                    imageVector = FeatherIcons.Calendar,
+                    tint = primary,
+                    modifier = Modifier.size(18.dp)
+                )
+            },
             label = "Friday · Apr 24",
             sub = "6:00 – 8:30 PM · Added to calendar",
             divider = true,
         )
         DetailRow(
-            icon = { Icon(FeatherIcons.Sun, null, tint = primary, modifier = Modifier.size(18.dp)) },
+            icon = {
+                Icon(
+                    imageVector = FeatherIcons.Sun,
+                    tint = primary,
+                    modifier = Modifier.size(18.dp)
+                )
+            },
             label = "Sunset at 7:48 PM",
             sub = "Local forecast: 18° clear",
             divider = true,

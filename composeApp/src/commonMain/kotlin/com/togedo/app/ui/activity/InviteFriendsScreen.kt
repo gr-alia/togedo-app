@@ -16,39 +16,48 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.Text
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class InviteFriendsScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        InviteFriendsContent(onBackClick = { navigator.pop() })
+    }
+}
 
-        Column(
-            modifier = Modifier.Companion
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Invite Friends Screen",
-                style = AppTheme.typography.h2
-            )
+@Composable
+private fun InviteFriendsContent(onBackClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = "Invite Friends Screen",
+            style = AppTheme.typography.h2,
+        )
 
-            Spacer(modifier = Modifier.Companion.height(32.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-            Button(
-                onClick = { navigator.pop() }
-            ) {
-                Text("Back to Create Activity")
-            }
-
-            Spacer(modifier = Modifier.Companion.height(16.dp))
-
-            Button(
-                onClick = { /* TODO: Implement invite logic */ }
-            ) {
-                Text("Send Invites")
-            }
+        Button(onClick = onBackClick) {
+            Text("Back to Create Activity")
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {}) {
+            Text("Send Invites")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun InviteFriendsScreenPreview() {
+    AppTheme {
+        InviteFriendsContent(onBackClick = {})
     }
 }
