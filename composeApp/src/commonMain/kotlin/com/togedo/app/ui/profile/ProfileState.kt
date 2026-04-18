@@ -11,19 +11,19 @@ data class ProfileState(
 )
 
 data class UserProfile(
-    val name: String = "Alex Morgan",
-    val email: String = "alex.morgan@email.com",
+    val name: String = "Emma",
+    val email: String = "emma@email.com",
     val avatarUrl: String? = null
 )
 
 data class ProfileStatistics(
     val sharedListsCount: Int = 12,
-    val activitiesCount: Int = 27,
-    val completedCount: Int = 8
+    val activitiesCount: Int = 47,
+    val completedCount: Int = 23
 )
 
 data class Partner(
-    val name: String = "Jordan Smith",
+    val name: String = "Jack",
     val avatarUrl: String? = null
 )
 
