@@ -149,7 +149,17 @@ The project uses the Lumo UI plugin for design system management. Configuration 
   - `Elevation` — shadow/elevation levels (`Elevation.none`, `.low`, `.medium`, `.high`)
   - `BorderRadius` — corner radii (`BorderRadius.roundedSm`, `.roundedMd`, `.roundedLg`, etc.)
   - `ListItemHeight` — standard list item heights (`ListItemHeight.regular` = 64.dp, `.narrow` = 48.dp)
-- **Design principles**: Follow `DESIGN_PRINCIPLES.md` for visual decisions — exaggerated minimalism, flat design, tonal elevation (no borders on cards), bottom navigation, and micro-interactions
+
+### Visual Design
+
+Before writing any UI code, read these two files:
+
+- **`DESIGN_PRINCIPLES.md`** — defines the visual language: exaggerated minimalism, flat design, tonal elevation (no card borders), bottom navigation placement, touch target sizes, and micro-interaction specs. Apply these rules to every screen and component.
+- **`COLOR_SYSTEM.md`** — defines all color tokens with light and dark values. Key rules:
+  - Always use `AppTheme.colors.*` — never hardcode hex values in Composables
+  - Use `text` / `textSecondary` / `textDisabled` for text colors (not `onBackground` or `onSurface` directly)
+  - Cards use tonal elevation — `outline` is for input fields and dividers only
+  - `primary` (Berry `#C2456A`) = user; `secondary` (Dusty Purple `#7B5EA7`) = partner — never mix them on the same card
 
 ### Kotlin Code Style and Best Practices
 
