@@ -265,7 +265,7 @@ private fun DotIndicator(
                         color = if (index == selectedIndex) {
                             AppTheme.colors.primary
                         } else {
-                            AppTheme.colors.brandEarthYellow
+                            AppTheme.colors.tertiary
                         },
                         shape = CircleShape,
                     ),

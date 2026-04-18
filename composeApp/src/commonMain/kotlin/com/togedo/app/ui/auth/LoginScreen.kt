@@ -76,14 +76,14 @@ private fun LoginContent(
             modifier = Modifier
                 .size(100.dp)
                 .clip(CircleShape)
-                .background(AppTheme.colors.brandEarthYellow.copy(alpha = 0.2f)),
+                .background(AppTheme.colors.tertiary.copy(alpha = 0.2f)),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = FeatherIcons.Smile,
                 contentDescription = "Welcome",
                 modifier = Modifier.size(56.dp),
-                tint = AppTheme.colors.brandEarthYellow,
+                tint = AppTheme.colors.tertiary,
             )
         }
 
@@ -92,7 +92,7 @@ private fun LoginContent(
         Text(
             text = buildAnnotatedString {
                 append("Hey there! ")
-                withStyle(SpanStyle(color = AppTheme.colors.brandVerdigris)) {
+                withStyle(SpanStyle(color = AppTheme.colors.primary)) {
                     append("👋")
                 }
             },
@@ -127,7 +127,7 @@ private fun LoginContent(
                     imageVector = FeatherIcons.Mail,
                     contentDescription = "Email",
                     modifier = Modifier.size(Spacing.spacing5),
-                    tint = AppTheme.colors.brandVerdigris,
+                    tint = AppTheme.colors.primary,
                 )
             },
             singleLine = true,

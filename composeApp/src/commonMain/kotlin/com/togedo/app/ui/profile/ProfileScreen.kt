@@ -350,9 +350,9 @@ private fun BadgesSection(badges: List<Badge>) {
         ) {
             badges.forEach { badge ->
                 val (icon, color) = when (badge.type) {
-                    BadgeType.Dreamer -> FeatherIcons.Star to AppTheme.colors.brandEarthYellow
-                    BadgeType.Explorer -> FeatherIcons.MapPin to AppTheme.colors.brandVerdigris
-                    BadgeType.Achiever -> FeatherIcons.Award to AppTheme.colors.brandUtOrange
+                    BadgeType.Dreamer -> FeatherIcons.Star to AppTheme.colors.primary
+                    BadgeType.Explorer -> FeatherIcons.MapPin to AppTheme.colors.secondary
+                    BadgeType.Achiever -> FeatherIcons.Award to AppTheme.colors.tertiary
                 }
 
                 BadgeCard(
