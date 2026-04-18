@@ -34,6 +34,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.Spacing
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.components.Button
