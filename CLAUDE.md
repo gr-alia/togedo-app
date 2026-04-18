@@ -42,11 +42,12 @@ The application uses Compose Multiplatform for shared UI across all platforms.
 ## Key Technologies and Libraries
 
 - **Dependency Injection**: Koin (v4.1.1) - used across all modules
-- **Networking**: Ktor (v3.3.0) - for shared networking code
+- **Networking**: Ktor (v3.3.2) - for shared networking code
   - Platform-specific engines: OkHttp (Android/JVM), Darwin (iOS)
 - **Navigation**: Voyager (v1.1.0-beta03) - Navigator and TabNavigator for screen navigation
 - **State Holder**: Voyager (v1.1.0-beta03) - Voyager ScreenModel (alternative of Android's ViewModel)
 - **Serialization**: kotlinx.serialization (v1.9.0)
+- **Date/Time**: kotlinx-datetime (v0.7.1) - multiplatform date/time handling
 - **State Storage**: KStore (v1.0.0) - multiplatform key-value storage
 - **Logging**: Kermit (v2.0.8)
 - **Design System**: Custom design system with Lumo UI plugin (v1.2.5)
@@ -61,16 +62,18 @@ The app uses a two-level navigation architecture:
 ```
 App.kt
 └── AppNavigator.kt
-    ├── AuthFlow.kt (when not logged in)
+    ├── OnboardingFlow.kt (first launch, onboarding not yet shown)
+    ├── AuthFlow.kt (onboarding shown, not logged in)
     │   └── Navigator(LoginScreen)
-    └── MainFlow.kt (when logged in)
+    └── MainFlow.kt (logged in)
         └── TabNavigator
             ├── HomeTab → ActivityListScreen
-            ├── CreateTab → CreateActivityScreen
+            ├── CreateTab → AddActivityScreen
             └── ProfileTab → ProfileScreen
 ```
 
-- **AppNavigator** (`navigation/AppNavigator.kt`): Root navigator that decides between AuthFlow and MainFlow
+- **AppNavigator** (`navigation/AppNavigator.kt`): Root navigator deciding between OnboardingFlow, AuthFlow, and MainFlow
+- **OnboardingFlow** (`navigation/OnboardingFlow.kt`): Shown on first launch before auth
 - **AuthFlow** (`navigation/AuthFlow.kt`): Handles login/registration screens
 - **MainFlow** (`navigation/MainFlow.kt`): Tab-based navigation with Scaffold and bottom NavigationBar
 - **Tabs** (`navigation/tabs/`): HomeTab, CreateTab, ProfileTab define tab structure and initial screens
@@ -96,16 +99,32 @@ Use expect/actual pattern for platform-specific implementations:
 
 Example: `Theme.kt` has `expect fun SystemAppearance(isDark: Boolean)` with actual implementations in each platform's `Theme.<platform>.kt`
 
+### Data Layer
+
+The app uses a domain-driven layering pattern:
+
+- **`domain/model/`** — pure Kotlin data models (e.g., `Activity`)
+- **`domain/repository/`** — repository interfaces defining the contract
+- **`data/repositoryimpl/`** — concrete repository implementations
+
+DI wires them together in feature modules under `di/`. Each feature has its own module file (`activityModule`, `authModule`, `profileModule`, `appModule`) registered in `di/Koin.kt` via `initKoin()`. ScreenModels are registered as `factoryOf`, repositories as `singleOf`.
+
 ### Package Structure
 
 - `com.togedo.app` - root package
+  - `data/repositoryimpl/` - repository implementations
   - `designsystem/` - custom design system components and theme
     - `components/` - reusable UI components
     - `foundation/` - design tokens and utilities
+  - `di/` - Koin modules per feature + `Koin.kt` entry point
+  - `domain/` - models and repository interfaces
   - `navigation/` - navigation flows and tab definitions
   - `ui/` - feature screens organized by domain
-    - `auth/` - authentication screens
-    - `activity/` - activity-related screens
+    - `auth/` - login and registration screens
+    - `activity/list/` - list screen with ScreenModel, State, UiModel
+    - `activity/add/` - add activity screen with ScreenModel and State
+    - `activity/` - detail, settings, and invite screens
+    - `onboarding/` - onboarding flow screens
     - `profile/` - profile and settings screens
 
 ## Lumo UI Plugin
@@ -125,7 +144,12 @@ The project uses the Lumo UI plugin for design system management. Configuration 
 - Place platform-specific code in expect/actual blocks
 - Prefer modern, stable libraries and APIs unless experimental features are explicitly requested
 - Do NOT write code comments unless explicitly requested by the user - write self-documenting code with clear naming instead
-- **Spacing**: Always use constants from `Spacing` object (`composeApp/src/commonMain/kotlin/com/togedo/app/designsystem/ThemeObjects.kt`) for padding modifiers instead of hardcoded dp values (e.g., use `Spacing.spacing4` instead of `16.dp`)
+- **Design tokens**: `ThemeObjects.kt` defines four objects — always use these instead of hardcoded dp values:
+  - `Spacing` — padding/margin values (e.g., `Spacing.spacing4` = 16.dp)
+  - `Elevation` — shadow/elevation levels (`Elevation.none`, `.low`, `.medium`, `.high`)
+  - `BorderRadius` — corner radii (`BorderRadius.roundedSm`, `.roundedMd`, `.roundedLg`, etc.)
+  - `ListItemHeight` — standard list item heights (`ListItemHeight.regular` = 64.dp, `.narrow` = 48.dp)
+- **Design principles**: Follow `DESIGN_PRINCIPLES.md` for visual decisions — exaggerated minimalism, flat design, tonal elevation (no borders on cards), bottom navigation, and micro-interactions
 
 ### Kotlin Code Style and Best Practices
 
