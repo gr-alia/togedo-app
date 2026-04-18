@@ -1,18 +1,23 @@
 package com.togedo.app.ui.onboarding
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,26 +25,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
-import com.togedo.app.ui.auth.LoginScreen
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.ButtonVariant
 import com.togedo.app.designsystem.components.Icon
-import com.togedo.app.designsystem.components.Scaffold
 import com.togedo.app.designsystem.components.Text
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.ArrowLeft
 import compose.icons.feathericons.ArrowRight
+import compose.icons.feathericons.Heart
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class OnboardingScreen : Screen {
@@ -55,7 +56,6 @@ class OnboardingScreen : Screen {
             onSkip = { screenModel.onSkip(navigator) },
             onStart = { screenModel.onStart(navigator) },
             onNextPage = screenModel::onNextPage,
-            onPreviousPage = screenModel::onPreviousPage,
         )
     }
 }
@@ -67,183 +67,177 @@ private fun OnboardingScreenContent(
     onSkip: () -> Unit,
     onStart: () -> Unit,
     onNextPage: () -> Unit,
-    onPreviousPage: () -> Unit,
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-
-        HorizontalPagerWithIndicators(
-            state.pages,
-            onPageChanged,
-            onSkip,
-            onStart,
-            onNextPage,
-            onPreviousPage
-        )
-
-    }
-}
-
-@Composable
-private fun HorizontalPagerWithIndicators(
-    pages: List<OnboardingPageUiModel>,
-    onPageChanged: (Int) -> Unit,
-    onSkip: () -> Unit,
-    onStart: () -> Unit,
-    onNextPage: () -> Unit,
-    onPreviousPage: () -> Unit
-) {
-    val pagerState = rememberPagerState(pageCount = { pages.size })
+    val pagerState = rememberPagerState(pageCount = { state.pages.size })
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(pagerState.currentPage) {
         onPageChanged(pagerState.currentPage)
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colors.background)
     ) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-        ) { page ->
-            OnboardingPage(page = pages[page])
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.spacing4),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            when (pagerState.currentPage) {
-                0 -> {
-                    Button(
-                        text = "Skip",
-                        variant = ButtonVariant.Ghost,
-                        onClick = onSkip,
-                    )
-                }
-
-                1 -> {
-                    Button(
-                        variant = ButtonVariant.Ghost,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                                onPreviousPage()
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = FeatherIcons.ArrowLeft,
-                            contentDescription = "Previous",
-                        )
+            modifier = Modifier.fillMaxSize(),
+        ) { pageIndex ->
+            val isLastPage = pageIndex == state.pages.size - 1
+            OnboardingPageContent(
+                page = pageIndex,
+                isLastPage = isLastPage,
+                onSkip = onSkip,
+                onNext = {
+                    if (isLastPage) {
+                        onStart()
+                    } else {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pageIndex + 1)
+                            onNextPage()
+                        }
                     }
-                }
-
-                2 -> {
-                    Button(
-                        variant = ButtonVariant.Ghost,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                                onPreviousPage()
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = FeatherIcons.ArrowLeft,
-                            contentDescription = "Previous",
-                        )
-                    }
-                }
-            }
-
-            DotIndicator(
-                totalDots = pages.size,
-                selectedIndex = pagerState.currentPage,
+                },
             )
-
-            when (pagerState.currentPage) {
-                0 -> {
-                    Button(
-                        variant = ButtonVariant.Ghost,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                onNextPage()
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = FeatherIcons.ArrowRight,
-                            contentDescription = "Next",
-                        )
-                    }
-                }
-
-                1 -> {
-                    Button(
-                        variant = ButtonVariant.Ghost,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                                onNextPage()
-                            }
-                        },
-                    ) {
-                        Icon(
-                            imageVector = FeatherIcons.ArrowRight,
-                            contentDescription = "Next",
-                        )
-                    }
-                }
-
-                2 -> {
-                    Button(
-                        text = "Start",
-                        variant = ButtonVariant.Primary,
-                        onClick = onStart,
-                    )
-                }
-            }
         }
     }
 }
 
 @Composable
-private fun OnboardingPage(page: OnboardingPageUiModel) {
+private fun OnboardingPageContent(
+    page: Int,
+    isLastPage: Boolean,
+    onSkip: () -> Unit,
+    onNext: () -> Unit,
+) {
     Column(
         modifier = Modifier
-            .padding(top = Spacing.spacing10)
-            .padding(horizontal = Spacing.spacing4)
             .fillMaxSize()
-            .background(AppTheme.colors.background),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = Spacing.spacing5),
     ) {
-        Image(
-            painter = painterResource(page.image),
-            contentDescription = ""
-        )
-        Text(
-            modifier = Modifier.padding(top=Spacing.spacing5),
-            text = stringResource(page.title),
-            style = AppTheme.typography.h2,
-            textAlign = TextAlign.Center
+        Spacer(modifier = Modifier.height(Spacing.spacing14))
 
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            if (!isLastPage) {
+                Text(
+                    text = "Skip",
+                    style = AppTheme.typography.label1,
+                    color = AppTheme.colors.textSecondary,
+                    modifier = Modifier
+                        .clickable(onClick = onSkip)
+                        .padding(Spacing.spacing2),
+                )
+            }
+        }
+
+        CirclesHero(page = page)
+
+        Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+        val headlines = listOf(
+            "Made for two.",
+            "Plan together.",
+            "Together, but\nnever distant.",
         )
+        val descriptions = listOf(
+            "A shared space just for the two of you — ideas, plans and memories in one place.",
+            "Add activities, set dates and keep track of your shared bucket list.",
+            "Togedo is a shared space for the two of you — plan moments, capture ideas, stay close.",
+        )
+
         Text(
-            modifier = Modifier.padding(top=Spacing.spacing3),
-            text = stringResource(page.description),
-            style = AppTheme.typography.body2,
-            textAlign = TextAlign.Center
+            text = headlines[page],
+            style = AppTheme.typography.display1,
+            color = AppTheme.colors.text,
         )
+
+        Spacer(modifier = Modifier.height(Spacing.spacing3))
+
+        Text(
+            text = descriptions[page],
+            style = AppTheme.typography.body1,
+            color = AppTheme.colors.textSecondary,
+        )
+
+        Spacer(modifier = Modifier.height(Spacing.spacing7))
+
+        DotIndicator(
+            totalDots = 3,
+            selectedIndex = page,
+        )
+
+        Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+        Button(
+            onClick = onNext,
+            modifier = Modifier.fillMaxWidth(),
+            variant = ButtonVariant.Primary,
+        ) {
+            Text(
+                text = if (isLastPage) "Let's go" else "Next",
+                style = AppTheme.typography.button,
+            )
+            Spacer(modifier = Modifier.width(Spacing.spacing2))
+            Icon(
+                imageVector = FeatherIcons.ArrowRight,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun CirclesHero(page: Int) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(280.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        val leftOffset = when (page) {
+            0 -> (-60).dp to (-30).dp
+            1 -> (-70).dp to (-20).dp
+            else -> (-64).dp to (-28).dp
+        }
+        val rightOffset = when (page) {
+            0 -> 20.dp to 20.dp
+            1 -> 10.dp to 30.dp
+            else -> 16.dp to 22.dp
+        }
+
+        Box(
+            modifier = Modifier
+                .size(180.dp)
+                .offset(x = leftOffset.first, y = leftOffset.second)
+                .clip(CircleShape)
+                .background(AppTheme.colors.primary),
+        )
+
+        Box(
+            modifier = Modifier
+                .size(180.dp)
+                .offset(x = rightOffset.first, y = rightOffset.second)
+                .clip(CircleShape)
+                .background(AppTheme.colors.secondary.copy(alpha = 0.9f)),
+        )
+
+        Box(
+            modifier = Modifier
+                .offset(x = (-16).dp, y = 10.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = FeatherIcons.Heart,
+                contentDescription = null,
+                tint = AppTheme.colors.tertiary,
+                modifier = Modifier.size(36.dp),
+            )
+        }
     }
 }
 
@@ -256,20 +250,25 @@ private fun DotIndicator(
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         repeat(totalDots) { index ->
-            Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .background(
-                        color = if (index == selectedIndex) {
-                            AppTheme.colors.primary
-                        } else {
-                            AppTheme.colors.tertiary
-                        },
-                        shape = CircleShape,
-                    ),
-            )
+            if (index == selectedIndex) {
+                Box(
+                    modifier = Modifier
+                        .width(22.dp)
+                        .height(6.dp)
+                        .clip(RoundedCornerShape(3.dp))
+                        .background(AppTheme.colors.primary),
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(6.dp)
+                        .clip(CircleShape)
+                        .background(AppTheme.colors.tertiary.copy(alpha = 0.6f)),
+                )
+            }
         }
     }
 }
@@ -284,7 +283,6 @@ fun OnboardingScreenPreview() {
             onSkip = {},
             onStart = {},
             onNextPage = {},
-            onPreviousPage = {},
         )
     }
 }
