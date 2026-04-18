@@ -46,6 +46,7 @@ import com.togedo.app.designsystem.components.Text
 import com.togedo.app.ui.activity.list.ActivityUiModel
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.ArrowLeft
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import compose.icons.feathericons.Calendar
 import compose.icons.feathericons.Check
 import compose.icons.feathericons.Heart
@@ -580,5 +581,54 @@ private fun BottomBar(
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun AddActivityScreenPreview() {
+    AppTheme {
+        AddActivityContent(
+            state = AddActivityState(
+                title = "Sunset picnic at Eidsvold",
+                description = "Wine, cheese, that blanket we never use.",
+                selectedStatus = ActivityUiModel.ActivityStatus.Planned,
+                selectedCategories = setOf(
+                    ActivityUiModel.ActivityTag.Romantic,
+                    ActivityUiModel.ActivityTag.Chill,
+                    ActivityUiModel.ActivityTag.Nature,
+                ),
+                location = "Eidsvold park",
+                date = "Fri · 6pm",
+            ),
+            onBackClick = {},
+            onTitleChanged = {},
+            onDescriptionChanged = {},
+            onStatusSelected = {},
+            onCategoryToggled = {},
+            onLocationChanged = {},
+            onDateClick = {},
+            onSaveClick = {},
+            onCancelClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AddActivityScreenEmptyPreview() {
+    AppTheme {
+        AddActivityContent(
+            state = AddActivityState(),
+            onBackClick = {},
+            onTitleChanged = {},
+            onDescriptionChanged = {},
+            onStatusSelected = {},
+            onCategoryToggled = {},
+            onLocationChanged = {},
+            onDateClick = {},
+            onSaveClick = {},
+            onCancelClick = {},
+        )
     }
 }
