@@ -1,6 +1,7 @@
 package com.togedo.app.ui.auth
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -24,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -32,14 +33,17 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.Spacing
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.components.Button
 import com.togedo.app.designsystem.components.ButtonVariant
 import com.togedo.app.designsystem.components.Icon
+import com.togedo.app.designsystem.components.Surface
 import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.textfield.TextField
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Mail
-import compose.icons.feathericons.Smile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class LoginScreen : Screen {
@@ -67,50 +71,37 @@ private fun LoginContent(
         modifier = Modifier
             .fillMaxSize()
             .background(AppTheme.colors.background)
-            .padding(horizontal = Spacing.spacing6)
-            .padding(top = Spacing.spacing16),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
+            .padding(horizontal = Spacing.spacing6),
     ) {
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape)
-                .background(AppTheme.colors.tertiary.copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = FeatherIcons.Smile,
-                contentDescription = "Welcome",
-                modifier = Modifier.size(56.dp),
-                tint = AppTheme.colors.tertiary,
-            )
-        }
+        Spacer(modifier = Modifier.height(Spacing.spacing14))
 
-        Spacer(modifier = Modifier.height(Spacing.spacing8))
+        LogoMark()
+
+        Spacer(modifier = Modifier.height(Spacing.spacing14))
 
         Text(
-            text = buildAnnotatedString {
-                append("Hey there! ")
-                withStyle(SpanStyle(color = AppTheme.colors.primary)) {
-                    append("👋")
-                }
-            },
-            style = AppTheme.typography.h1,
+            text = "Welcome\nback.",
+            style = AppTheme.typography.display1,
             color = AppTheme.colors.text,
-            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(Spacing.spacing3))
 
         Text(
-            text = "We're excited to see you! Drop your email below and we'll send you a magic code ✨",
-            style = AppTheme.typography.body2,
+            text = "We'll send a magic code to your inbox — no password to remember.",
+            style = AppTheme.typography.body1,
             color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(Spacing.spacing10))
+
+        Text(
+            text = "Email",
+            style = AppTheme.typography.label1,
+            color = AppTheme.colors.textSecondary,
+        )
+
+        Spacer(modifier = Modifier.height(Spacing.spacing2))
 
         TextField(
             value = email,
@@ -134,10 +125,10 @@ private fun LoginContent(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         )
 
-        Spacer(modifier = Modifier.height(Spacing.spacing6))
+        Spacer(modifier = Modifier.height(Spacing.spacing5))
 
         Button(
-            text = "Send me the magic code! 🪄",
+            text = "Send me a magic code",
             onClick = { onEmailLoginClick(email) },
             modifier = Modifier.fillMaxWidth(),
             variant = ButtonVariant.Primary,
@@ -147,7 +138,6 @@ private fun LoginContent(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
@@ -157,9 +147,9 @@ private fun LoginContent(
                     .background(AppTheme.colors.outline),
             )
             Text(
-                text = "  or try this  ",
+                text = "  or  ",
                 style = AppTheme.typography.label2,
-                color = AppTheme.colors.textSecondary,
+                color = AppTheme.colors.textDisabled,
             )
             Box(
                 modifier = Modifier
@@ -169,13 +159,95 @@ private fun LoginContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(Spacing.spacing8))
+        Spacer(modifier = Modifier.height(Spacing.spacing5))
 
-        Button(
-            text = "Continue with Google",
+        Surface(
             onClick = onGoogleLoginClick,
-            modifier = Modifier.fillMaxWidth(),
-            variant = ButtonVariant.SecondaryOutlined,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.5.dp,
+                    color = AppTheme.colors.outline,
+                    shape = RoundedCornerShape(BorderRadius.roundedXl),
+                ),
+            shape = RoundedCornerShape(BorderRadius.roundedXl),
+            color = AppTheme.colors.surface,
+        ) {
+            Row(
+                modifier = Modifier.padding(
+                    horizontal = Spacing.spacing4,
+                    vertical = Spacing.spacing3,
+                ),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "G",
+                    style = AppTheme.typography.body1.copy(
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    ),
+                    color = AppTheme.colors.text,
+                )
+                Spacer(modifier = Modifier.width(Spacing.spacing2))
+                Text(
+                    text = "Continue with Google",
+                    style = AppTheme.typography.button,
+                    color = AppTheme.colors.text,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = Spacing.spacing5),
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    append("New here? ")
+                    withStyle(SpanStyle(color = AppTheme.colors.primary)) {
+                        append("Create an account")
+                    }
+                },
+                style = AppTheme.typography.body2,
+                color = AppTheme.colors.textSecondary,
+                modifier = Modifier.clickable(onClick = onRegisterClick),
+            )
+        }
+    }
+}
+
+@Composable
+private fun LogoMark() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+    ) {
+        Box {
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(AppTheme.colors.primary),
+            )
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .offset(x = 18.dp)
+                    .clip(CircleShape)
+                    .background(AppTheme.colors.secondary),
+            )
+        }
+
+        Spacer(modifier = Modifier.width(18.dp))
+
+        Text(
+            text = "togedo",
+            style = AppTheme.typography.h4,
+            color = AppTheme.colors.text,
         )
     }
 }
