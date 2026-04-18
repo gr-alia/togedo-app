@@ -2,30 +2,56 @@ package com.togedo.app.ui.activity.add
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
-import com.togedo.app.designsystem.components.*
-import com.togedo.app.designsystem.components.textfield.TextField
+import com.togedo.app.designsystem.components.Chip
+import com.togedo.app.designsystem.components.ChipDefaults
+import com.togedo.app.designsystem.components.Icon
+import com.togedo.app.designsystem.components.Surface
+import com.togedo.app.designsystem.components.Text
 import com.togedo.app.ui.activity.list.ActivityUiModel
 import compose.icons.FeatherIcons
-import compose.icons.feathericons.*
-import androidx.compose.foundation.text.KeyboardOptions
-import cafe.adriel.voyager.koin.koinScreenModel
-import com.togedo.app.ui.activity.list.ActivityListScreenModel
+import compose.icons.feathericons.ArrowLeft
+import compose.icons.feathericons.Calendar
+import compose.icons.feathericons.Check
+import compose.icons.feathericons.Heart
+import compose.icons.feathericons.Image
+import compose.icons.feathericons.MapPin
+import compose.icons.feathericons.Users
 
 class AddActivityScreen : Screen {
     @Composable
@@ -40,200 +66,134 @@ class AddActivityScreen : Screen {
             }
         }
 
-        Scaffold(
-            topBar = {
-                TopBar(
-                    onBackClick = { navigator.pop() }
-                )
-            },
-            snackbarHost = {
-                if (state.titleError) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(Spacing.spacing4)
-                    ) {
-                        SnackbarMessage(
-                            message = "Activity title is required",
-                            onDismiss = { screenModel.onTitleChanged(state.title) }
-                        )
-                    }
-                }
-            }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(AppTheme.colors.background)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .verticalScroll(rememberScrollState())
-                            .padding(horizontal = Spacing.spacing4)
-                    ) {
-                        Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                        TitleSection(
-                            title = state.title,
-                            onTitleChanged = screenModel::onTitleChanged,
-                            isError = state.titleError
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                        DescriptionSection(
-                            description = state.description,
-                            onDescriptionChanged = screenModel::onDescriptionChanged
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing5))
-
-                        StatusSection(
-                            selectedStatus = state.selectedStatus,
-                            onStatusSelected = screenModel::onStatusSelected
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing5))
-
-                        CategorySection(
-                            selectedCategories = state.selectedCategories,
-                            onCategoryToggled = screenModel::onCategoryToggled
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing5))
-
-                        LocationSection(
-                            location = state.location,
-                            onLocationChanged = screenModel::onLocationChanged
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                        DateSection(
-                            date = state.date,
-                            onDateClick = { screenModel.onShowDatePicker(true) }
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                        PhotoSection(
-                            photoUri = state.photoUri,
-                            onPhotoSelected = screenModel::onPhotoSelected
-                        )
-
-                        Spacer(modifier = Modifier.height(Spacing.spacing8))
-                    }
-
-                    ActionButtons(
-                        isSaving = state.isSaving,
-                        onSaveClick = {
-                            screenModel.validateAndSave { navigator.pop() }
-                        },
-                        onCancelClick = { navigator.pop() }
-                    )
-                }
-            }
-        }
+        AddActivityContent(
+            state = state,
+            onBackClick = { navigator.pop() },
+            onTitleChanged = screenModel::onTitleChanged,
+            onDescriptionChanged = screenModel::onDescriptionChanged,
+            onStatusSelected = screenModel::onStatusSelected,
+            onCategoryToggled = screenModel::onCategoryToggled,
+            onLocationChanged = screenModel::onLocationChanged,
+            onDateClick = { screenModel.onShowDatePicker(true) },
+            onSaveClick = { screenModel.validateAndSave { navigator.pop() } },
+            onCancelClick = { navigator.pop() },
+        )
     }
 }
 
 @Composable
-private fun TopBar(onBackClick: () -> Unit) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = AppTheme.colors.surface
+private fun AddActivityContent(
+    state: AddActivityState,
+    onBackClick: () -> Unit,
+    onTitleChanged: (String) -> Unit,
+    onDescriptionChanged: (String) -> Unit,
+    onStatusSelected: (ActivityUiModel.ActivityStatus) -> Unit,
+    onCategoryToggled: (ActivityUiModel.ActivityTag) -> Unit,
+    onLocationChanged: (String) -> Unit,
+    onDateClick: () -> Unit,
+    onSaveClick: () -> Unit,
+    onCancelClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colors.background),
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Spacing.spacing2, vertical = Spacing.spacing3),
-            verticalAlignment = Alignment.CenterVertically
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = Spacing.spacing5),
         ) {
-            Surface(
-                onClick = onBackClick,
-                shape = RoundedCornerShape(BorderRadius.roundedSm),
-                color = AppTheme.colors.transparent
+            Spacer(modifier = Modifier.height(Spacing.spacing14))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = Modifier.padding(Spacing.spacing2)
+                Surface(
+                    onClick = onBackClick,
+                    shape = CircleShape,
+                    color = AppTheme.colors.surface,
+                    modifier = Modifier.size(40.dp),
                 ) {
-                    Icon(
-                        imageVector = FeatherIcons.ArrowLeft,
-                        contentDescription = "Back",
-                        tint = AppTheme.colors.text
-                    )
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = FeatherIcons.ArrowLeft,
+                            contentDescription = "Back",
+                            tint = AppTheme.colors.text,
+                            modifier = Modifier.size(20.dp),
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = if (state.title.isNotBlank()) "Draft saved" else "",
+                    style = AppTheme.typography.label1,
+                    color = AppTheme.colors.textSecondary,
+                )
             }
 
-            Spacer(modifier = Modifier.width(Spacing.spacing2))
+            Spacer(modifier = Modifier.height(Spacing.spacing5))
 
             Text(
-                text = "Add New Activity",
-                style = AppTheme.typography.h2,
-                color = AppTheme.colors.text
+                text = "New idea",
+                style = AppTheme.typography.display2,
+                color = AppTheme.colors.text,
             )
+            Text(
+                text = "Drop it in — the smallest thought counts.",
+                style = AppTheme.typography.body2,
+                color = AppTheme.colors.textSecondary,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing6))
+
+            TitleSection(
+                title = state.title,
+                onTitleChanged = onTitleChanged,
+                isError = state.titleError,
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+            DescriptionSection(
+                description = state.description,
+                onDescriptionChanged = onDescriptionChanged,
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+            StatusSection(
+                selectedStatus = state.selectedStatus,
+                onStatusSelected = onStatusSelected,
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+            VibesSection(
+                selectedCategories = state.selectedCategories,
+                onCategoryToggled = onCategoryToggled,
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing5))
+
+            MetaGrid(
+                location = state.location,
+                date = state.date,
+                onLocationChanged = onLocationChanged,
+                onDateClick = onDateClick,
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.spacing8))
         }
-    }
-}
 
-@Composable
-private fun SnackbarMessage(
-    message: String,
-    onDismiss: () -> Unit
-) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(BorderRadius.roundedMd),
-        color = AppTheme.colors.error
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.spacing4),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = FeatherIcons.AlertCircle,
-                    contentDescription = null,
-                    tint = AppTheme.colors.onError,
-                    modifier = Modifier.size(20.dp)
-                )
-
-                Spacer(modifier = Modifier.width(Spacing.spacing2))
-
-                Text(
-                    text = message,
-                    style = AppTheme.typography.body2,
-                    color = AppTheme.colors.onError
-                )
-            }
-
-            Surface(
-                onClick = onDismiss,
-                shape = RoundedCornerShape(BorderRadius.roundedFull),
-                color = AppTheme.colors.transparent
-            ) {
-                Icon(
-                    imageVector = FeatherIcons.X,
-                    contentDescription = "Dismiss",
-                    tint = AppTheme.colors.onError,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(Spacing.spacing1)
-                )
-            }
-        }
+        BottomBar(
+            isSaving = state.isSaving,
+            onSaveClick = onSaveClick,
+            onCancelClick = onCancelClick,
+        )
     }
 }
 
@@ -241,54 +201,106 @@ private fun SnackbarMessage(
 private fun TitleSection(
     title: String,
     onTitleChanged: (String) -> Unit,
-    isError: Boolean
+    isError: Boolean,
 ) {
+    val borderColor = when {
+        isError -> AppTheme.colors.error
+        else -> AppTheme.colors.primary
+    }
+
     Column {
         Text(
-            text = "Activity Title *",
+            text = "What is it? *",
             style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
+            color = if (isError) AppTheme.colors.error else AppTheme.colors.textSecondary,
         )
 
         Spacer(modifier = Modifier.height(Spacing.spacing2))
 
-        TextField(
+        val primaryColor = borderColor
+        BasicTextField(
             value = title,
             onValueChange = onTitleChanged,
-            placeholder = { Text("e.g., Sunset picnic at the beach", style = AppTheme.typography.body1) },
-            singleLine = true,
-            isError = isError,
-            modifier = Modifier.fillMaxWidth()
+            textStyle = AppTheme.typography.h2.copy(
+                color = AppTheme.colors.text,
+                fontWeight = FontWeight.Bold,
+            ),
+            cursorBrush = SolidColor(AppTheme.colors.primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 48.dp)
+                .drawBehind {
+                    val y = size.height
+                    drawLine(
+                        color = primaryColor,
+                        start = Offset(0f, y),
+                        end = Offset(size.width, y),
+                        strokeWidth = 2.dp.toPx(),
+                    )
+                }
+                .padding(bottom = Spacing.spacing2),
+            decorationBox = { innerTextField ->
+                Box {
+                    if (title.isEmpty()) {
+                        Text(
+                            text = "e.g., Sunset picnic at the park",
+                            style = AppTheme.typography.h2.copy(fontWeight = FontWeight.Bold),
+                            color = AppTheme.colors.textDisabled,
+                        )
+                    }
+                    innerTextField()
+                }
+            },
         )
+
+        if (isError) {
+            Text(
+                text = "Title is required",
+                style = AppTheme.typography.body3,
+                color = AppTheme.colors.error,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
     }
 }
 
 @Composable
 private fun DescriptionSection(
     description: String,
-    onDescriptionChanged: (String) -> Unit
+    onDescriptionChanged: (String) -> Unit,
 ) {
     Column {
         Text(
-            text = "Description",
+            text = "A little more",
             style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
+            color = AppTheme.colors.textSecondary,
         )
 
         Spacer(modifier = Modifier.height(Spacing.spacing2))
 
-        TextField(
+        BasicTextField(
             value = description,
             onValueChange = onDescriptionChanged,
-            placeholder = {
-                Text(
-                    "Add more details about your activity...",
-                    style = AppTheme.typography.body1
-                )
+            textStyle = AppTheme.typography.body2.copy(color = AppTheme.colors.text),
+            cursorBrush = SolidColor(AppTheme.colors.primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(BorderRadius.roundedMd))
+                .background(AppTheme.colors.surface)
+                .padding(Spacing.spacing3)
+                .defaultMinSize(minHeight = 72.dp),
+            decorationBox = { innerTextField ->
+                Box {
+                    if (description.isEmpty()) {
+                        Text(
+                            text = "Wine, cheese, that blanket we never use…",
+                            style = AppTheme.typography.body2,
+                            color = AppTheme.colors.textDisabled,
+                        )
+                    }
+                    innerTextField()
+                }
             },
-            minLines = 4,
-            maxLines = 6,
-            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -296,349 +308,277 @@ private fun DescriptionSection(
 @Composable
 private fun StatusSection(
     selectedStatus: ActivityUiModel.ActivityStatus,
-    onStatusSelected: (ActivityUiModel.ActivityStatus) -> Unit
+    onStatusSelected: (ActivityUiModel.ActivityStatus) -> Unit,
 ) {
     Column {
         Text(
             text = "Status",
             style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
+            color = AppTheme.colors.textSecondary,
         )
 
         Spacer(modifier = Modifier.height(Spacing.spacing2))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
         ) {
             listOf(
-                ActivityUiModel.ActivityStatus.Idea to "To Do",
+                ActivityUiModel.ActivityStatus.Idea to "Idea",
                 ActivityUiModel.ActivityStatus.Planned to "Planned",
-                ActivityUiModel.ActivityStatus.Done to "Done"
+                ActivityUiModel.ActivityStatus.Done to "Done",
             ).forEach { (status, label) ->
-                StatusChip(
-                    label = label,
-                    status = status,
-                    isSelected = selectedStatus == status,
+                val isSelected = selectedStatus == status
+                Surface(
                     onClick = { onStatusSelected(status) },
-                    modifier = Modifier.weight(1f)
-                )
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(BorderRadius.roundedMd),
+                    color = if (isSelected) status.statusBackgroundColor else AppTheme.colors.surface,
+                ) {
+                    Row(
+                        modifier = Modifier.padding(vertical = Spacing.spacing3),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        if (isSelected) {
+                            Icon(
+                                imageVector = FeatherIcons.Check,
+                                contentDescription = null,
+                                tint = status.statusColor,
+                                modifier = Modifier.size(14.dp),
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                        }
+                        Text(
+                            text = label,
+                            style = AppTheme.typography.label1,
+                            color = if (isSelected) status.statusColor else AppTheme.colors.textSecondary,
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun StatusChip(
-    label: String,
-    status: ActivityUiModel.ActivityStatus,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+private fun VibesSection(
+    selectedCategories: Set<ActivityUiModel.ActivityTag>,
+    onCategoryToggled: (ActivityUiModel.ActivityTag) -> Unit,
 ) {
-    val backgroundColor = if (isSelected) {
-        status.statusBackgroundColor
-    } else {
-        AppTheme.colors.surface
-    }
+    Column {
+        Text(
+            text = "Vibes",
+            style = AppTheme.typography.label1,
+            color = AppTheme.colors.textSecondary,
+        )
 
-    val textColor = if (isSelected) {
-        status.statusColor
-    } else {
-        AppTheme.colors.textSecondary
-    }
+        Spacer(modifier = Modifier.height(Spacing.spacing2))
 
-    Surface(
-        onClick = onClick,
-        modifier = modifier,
-        shape = RoundedCornerShape(BorderRadius.roundedMd),
-        color = backgroundColor
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = Spacing.spacing3),
-            contentAlignment = Alignment.Center
+        androidx.compose.foundation.layout.FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing2),
         ) {
-            Text(
-                text = label,
-                style = AppTheme.typography.label1,
-                color = textColor
+            CategoryOption.entries.forEach { category ->
+                val isSelected = selectedCategories.contains(category.tag)
+                Chip(
+                    onClick = { onCategoryToggled(category.tag) },
+                    selected = isSelected,
+                    colors = ChipDefaults.chipColors(
+                        selectedContainerColor = AppTheme.colors.secondary,
+                        selectedContentColor = AppTheme.colors.onSecondary,
+                    ),
+                ) {
+                    Text(
+                        text = if (isSelected) "✓ ${category.displayName}" else category.displayName,
+                        style = AppTheme.typography.label2,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MetaGrid(
+    location: String,
+    date: String,
+    onLocationChanged: (String) -> Unit,
+    onDateClick: () -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(Spacing.spacing2)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+        ) {
+            MetaTile(
+                icon = {
+                    Icon(
+                        imageVector = FeatherIcons.MapPin,
+                        contentDescription = null,
+                        tint = AppTheme.colors.secondary,
+                        modifier = Modifier.size(16.dp),
+                    )
+                },
+                label = "Location",
+                value = location.ifBlank { "Add location" },
+                valueColor = if (location.isBlank()) AppTheme.colors.textDisabled else AppTheme.colors.text,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            )
+            MetaTile(
+                icon = {
+                    Icon(
+                        imageVector = FeatherIcons.Calendar,
+                        contentDescription = null,
+                        tint = AppTheme.colors.primary,
+                        modifier = Modifier.size(16.dp),
+                    )
+                },
+                label = "Date",
+                value = date.ifBlank { "Pick a date" },
+                valueColor = if (date.isBlank()) AppTheme.colors.textDisabled else AppTheme.colors.text,
+                containerColor = if (date.isNotBlank()) AppTheme.colors.primaryContainer else AppTheme.colors.surface,
+                modifier = Modifier.weight(1f),
+                onClick = onDateClick,
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+        ) {
+            MetaTile(
+                icon = {
+                    Icon(
+                        imageVector = FeatherIcons.Image,
+                        contentDescription = null,
+                        tint = AppTheme.colors.secondary,
+                        modifier = Modifier.size(16.dp),
+                    )
+                },
+                label = "Photo",
+                value = "Add one",
+                valueColor = AppTheme.colors.textDisabled,
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            )
+            MetaTile(
+                icon = {
+                    Icon(
+                        imageVector = FeatherIcons.Users,
+                        contentDescription = null,
+                        tint = AppTheme.colors.secondary,
+                        modifier = Modifier.size(16.dp),
+                    )
+                },
+                label = "Share",
+                value = "Just us",
+                valueColor = AppTheme.colors.text,
+                modifier = Modifier.weight(1f),
+                onClick = {},
             )
         }
     }
 }
 
 @Composable
-private fun CategorySection(
-    selectedCategories: Set<ActivityUiModel.ActivityTag>,
-    onCategoryToggled: (ActivityUiModel.ActivityTag) -> Unit
-) {
-    Column {
-        Text(
-            text = "Categories",
-            style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
-        )
-
-        Spacer(modifier = Modifier.height(Spacing.spacing2))
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
-            verticalArrangement = Arrangement.spacedBy(Spacing.spacing2)
-        ) {
-            CategoryOption.entries.forEach { category ->
-                CategoryChip(
-                    label = category.displayName,
-                    isSelected = selectedCategories.contains(category.tag),
-                    onClick = { onCategoryToggled(category.tag) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun CategoryChip(
+private fun MetaTile(
+    icon: @Composable () -> Unit,
     label: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Chip(
-        onClick = onClick,
-        selected = isSelected,
-        colors = ChipDefaults.chipColors(
-            selectedContainerColor = AppTheme.colors.secondary,
-            selectedContentColor = AppTheme.colors.onSecondary
-        )
-    ) {
-        Text(
-            text = label,
-            style = AppTheme.typography.label2
-        )
-    }
-}
-
-@Composable
-private fun LocationSection(
-    location: String,
-    onLocationChanged: (String) -> Unit
-) {
-    Column {
-        Text(
-            text = "Location",
-            style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
-        )
-
-        Spacer(modifier = Modifier.height(Spacing.spacing2))
-
-        TextField(
-            value = location,
-            onValueChange = onLocationChanged,
-            placeholder = { Text("Add a location (optional)", style = AppTheme.typography.body1) },
-            leadingIcon = {
-                Icon(
-                    imageVector = FeatherIcons.MapPin,
-                    contentDescription = null,
-                    tint = AppTheme.colors.secondary,
-                    modifier = Modifier.size(20.dp)
-                )
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-private fun DateSection(
-    date: String,
-    onDateClick: () -> Unit
-) {
-    Column {
-        Text(
-            text = "Date",
-            style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
-        )
-
-        Spacer(modifier = Modifier.height(Spacing.spacing2))
-
-        Surface(
-            onClick = onDateClick,
-            shape = RoundedCornerShape(BorderRadius.roundedXl),
-            color = AppTheme.colors.surface,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.spacing4, vertical = Spacing.spacing4),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = FeatherIcons.Calendar,
-                    contentDescription = null,
-                    tint = AppTheme.colors.secondary,
-                    modifier = Modifier.size(20.dp)
-                )
-
-                Spacer(modifier = Modifier.width(Spacing.spacing3))
-
-                Text(
-                    text = if (date.isEmpty()) "Pick a date (optional)" else date,
-                    style = AppTheme.typography.body1,
-                    color = if (date.isEmpty()) AppTheme.colors.textSecondary else AppTheme.colors.text
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PhotoSection(
-    photoUri: String?,
-    onPhotoSelected: (String?) -> Unit
-) {
-    Column {
-        Text(
-            text = "Photo",
-            style = AppTheme.typography.label1,
-            color = AppTheme.colors.text
-        )
-
-        Spacer(modifier = Modifier.height(Spacing.spacing2))
-
-        Surface(
-            onClick = { },
-            shape = RoundedCornerShape(BorderRadius.roundedMd),
-            color = AppTheme.colors.surface,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Spacing.spacing4),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = FeatherIcons.Image,
-                    contentDescription = null,
-                    tint = AppTheme.colors.secondary,
-                    modifier = Modifier.size(24.dp)
-                )
-
-                Spacer(modifier = Modifier.width(Spacing.spacing3))
-
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = if (photoUri == null) "Add a photo" else "Photo attached",
-                        style = AppTheme.typography.body1,
-                        color = AppTheme.colors.text
-                    )
-
-                    if (photoUri == null) {
-                        Text(
-                            text = "Optional",
-                            style = AppTheme.typography.body3,
-                            color = AppTheme.colors.textSecondary
-                        )
-                    }
-                }
-
-                Icon(
-                    imageVector = FeatherIcons.Upload,
-                    contentDescription = null,
-                    tint = AppTheme.colors.textSecondary,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ActionButtons(
-    isSaving: Boolean,
-    onSaveClick: () -> Unit,
-    onCancelClick: () -> Unit
+    value: String,
+    valueColor: androidx.compose.ui.graphics.Color,
+    modifier: Modifier = Modifier,
+    containerColor: androidx.compose.ui.graphics.Color = AppTheme.colors.surface,
+    onClick: () -> Unit,
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = AppTheme.colors.surface
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(BorderRadius.roundedMd),
+        color = containerColor,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Spacing.spacing4),
-            horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2)
-        ) {
-            Surface(
-                onClick = onCancelClick,
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(BorderRadius.roundedMd),
-                color = AppTheme.colors.background
+        Column(modifier = Modifier.padding(Spacing.spacing3)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(Spacing.spacing4),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Cancel",
-                        style = AppTheme.typography.button,
-                        color = AppTheme.colors.text
-                    )
-                }
+                icon()
+                Text(
+                    text = label,
+                    style = AppTheme.typography.label2,
+                    color = AppTheme.colors.textSecondary,
+                )
             }
-
-            Surface(
-                onClick = onSaveClick,
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(BorderRadius.roundedMd),
-                color = AppTheme.colors.primary,
-                enabled = !isSaving
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(Spacing.spacing4),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (isSaving) {
-                        Text(
-                            text = "Saving...",
-                            style = AppTheme.typography.button,
-                            color = AppTheme.colors.onPrimary
-                        )
-                    } else {
-                        Text(
-                            text = "Save Activity",
-                            style = AppTheme.typography.button,
-                            color = AppTheme.colors.onPrimary
-                        )
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.height(Spacing.spacing1))
+            Text(
+                text = value,
+                style = AppTheme.typography.h4,
+                color = valueColor,
+            )
         }
     }
 }
 
 @Composable
-private fun FlowRow(
-    modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    content: @Composable () -> Unit
+private fun BottomBar(
+    isSaving: Boolean,
+    onSaveClick: () -> Unit,
+    onCancelClick: () -> Unit,
 ) {
-    androidx.compose.foundation.layout.FlowRow(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalArrangement = verticalArrangement
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(AppTheme.colors.background)
+            .padding(horizontal = Spacing.spacing5, vertical = Spacing.spacing3),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
     ) {
-        content()
+        Surface(
+            onClick = onCancelClick,
+            modifier = Modifier.weight(1f),
+            shape = RoundedCornerShape(BorderRadius.roundedLg),
+            color = AppTheme.colors.surface,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "Cancel",
+                    style = AppTheme.typography.button,
+                    color = AppTheme.colors.text,
+                )
+            }
+        }
+
+        Surface(
+            onClick = if (isSaving) ({}) else onSaveClick,
+            modifier = Modifier.weight(2f),
+            shape = RoundedCornerShape(BorderRadius.roundedLg),
+            color = if (isSaving) AppTheme.colors.disabledContainer else AppTheme.colors.primary,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = FeatherIcons.Heart,
+                    contentDescription = null,
+                    tint = if (isSaving) AppTheme.colors.textDisabled else AppTheme.colors.onPrimary,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(modifier = Modifier.width(Spacing.spacing2))
+                Text(
+                    text = if (isSaving) "Saving…" else "Save idea",
+                    style = AppTheme.typography.button,
+                    color = if (isSaving) AppTheme.colors.textDisabled else AppTheme.colors.onPrimary,
+                )
+            }
+        }
     }
 }
