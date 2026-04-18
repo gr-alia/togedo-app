@@ -39,6 +39,8 @@ fun ralewayFontFamily() = FontFamily(
 
 
 data class Typography(
+    val display1: TextStyle,
+    val display2: TextStyle,
     val h1: TextStyle,
     val h2: TextStyle,
     val h3: TextStyle,
@@ -55,6 +57,20 @@ data class Typography(
 
 private val defaultTypography =
     Typography(
+        display1 =
+            TextStyle(
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 40.sp,
+                lineHeight = 46.sp,
+                letterSpacing = (-0.5).sp,
+            ),
+        display2 =
+            TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
+                lineHeight = 38.sp,
+                letterSpacing = (-0.3).sp,
+            ),
         h1 =
             TextStyle(
                 fontWeight = FontWeight.Bold,
@@ -146,6 +162,8 @@ fun provideTypography(): Typography {
     val fontFamily = ralewayFontFamily()
 
     return defaultTypography.copy(
+        display1 = defaultTypography.display1.copy(fontFamily = fontFamily),
+        display2 = defaultTypography.display2.copy(fontFamily = fontFamily),
         h1 = defaultTypography.h1.copy(fontFamily = fontFamily),
         h2 = defaultTypography.h2.copy(fontFamily = fontFamily),
         h3 = defaultTypography.h3.copy(fontFamily = fontFamily),

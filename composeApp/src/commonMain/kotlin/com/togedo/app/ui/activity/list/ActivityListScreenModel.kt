@@ -61,39 +61,47 @@ class ActivityListScreenModel : StateScreenModel<ActivityListState>(ActivityList
         return listOf(
             ActivityUiModel(
                 id = "1",
-                title = "Movie Night",
-                description = "Watch a classic film with popcorn",
-                tags = listOf(ActivityUiModel.ActivityTag.Fun, ActivityUiModel.ActivityTag.Chill, ActivityUiModel.ActivityTag.Romantic),
-                status = ActivityUiModel.ActivityStatus.Planned
+                title = "Sunset picnic at Eidsvold",
+                description = "Wine, cheese, that blanket we never use.",
+                tags = listOf(ActivityUiModel.ActivityTag.Romantic, ActivityUiModel.ActivityTag.Chill, ActivityUiModel.ActivityTag.Nature),
+                status = ActivityUiModel.ActivityStatus.Planned,
+                owner = ActivityUiModel.ActivityOwner.User,
+                date = "Fri",
             ),
             ActivityUiModel(
                 id = "2",
-                title = "Dinner at Italian Restaurant wearing fancy suits",
-                description = "Romantic dinner at Mario's",
-                tags = listOf(ActivityUiModel.ActivityTag.Romantic, ActivityUiModel.ActivityTag.Fancy),
-                status = ActivityUiModel.ActivityStatus.Idea
+                title = "Japanese cooking class",
+                description = "The one near Central Market with handmade udon.",
+                tags = listOf(ActivityUiModel.ActivityTag.Fun, ActivityUiModel.ActivityTag.Fancy),
+                status = ActivityUiModel.ActivityStatus.Idea,
+                owner = ActivityUiModel.ActivityOwner.Partner,
             ),
             ActivityUiModel(
                 id = "3",
-                title = "Hiking Trip",
-                description = "Mountain trail adventure",
-                tags = listOf(ActivityUiModel.ActivityTag.Nature, ActivityUiModel.ActivityTag.Sport),
-                status = ActivityUiModel.ActivityStatus.Planned
+                title = "Morning run along the river",
+                description = "5k, then pastries. Always pastries.",
+                tags = listOf(ActivityUiModel.ActivityTag.Sport),
+                status = ActivityUiModel.ActivityStatus.Done,
+                owner = ActivityUiModel.ActivityOwner.User,
+                date = "Sun",
             ),
             ActivityUiModel(
                 id = "4",
-                title = "Board Game Night",
-                description = "Play Catan with friends",
-                tags = listOf(ActivityUiModel.ActivityTag.Socializing, ActivityUiModel.ActivityTag.Fun, ActivityUiModel.ActivityTag.Chill),
-                status = ActivityUiModel.ActivityStatus.Done
+                title = "Pottery studio date",
+                description = "Request pottery like in the movie. Maybe not.",
+                tags = listOf(ActivityUiModel.ActivityTag.Art, ActivityUiModel.ActivityTag.Fun),
+                status = ActivityUiModel.ActivityStatus.Planned,
+                owner = ActivityUiModel.ActivityOwner.Partner,
+                date = "Sat",
             ),
             ActivityUiModel(
                 id = "5",
-                title = "Concert",
-                description = "Live music performance",
+                title = "Concert in the park",
+                description = "Live music under the stars.",
                 tags = listOf(ActivityUiModel.ActivityTag.Art, ActivityUiModel.ActivityTag.Socializing),
-                status = ActivityUiModel.ActivityStatus.Canceled
-            )
+                status = ActivityUiModel.ActivityStatus.Canceled,
+                owner = ActivityUiModel.ActivityOwner.User,
+            ),
         )
     }
 }

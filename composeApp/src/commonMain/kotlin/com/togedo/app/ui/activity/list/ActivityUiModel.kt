@@ -9,8 +9,11 @@ data class ActivityUiModel(
     val description: String,
     val tags: List<ActivityTag>,
     val status: ActivityStatus,
+    val owner: ActivityOwner = ActivityOwner.User,
+    val date: String? = null,
 ) {
 
+    enum class ActivityOwner { User, Partner }
 
     enum class ActivityTag {
         Fun, Sport, NoSex, Art, Romantic, Pleasure, Sez, Fancy, Chill, Socializing, Nature
