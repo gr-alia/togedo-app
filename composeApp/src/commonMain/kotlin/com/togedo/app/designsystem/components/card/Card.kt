@@ -161,7 +161,7 @@ fun OutlinedCard(
 )
 
 object CardDefaults {
-    val Shape: Shape @Composable get() = RoundedCornerShape(BorderRadius.roundedXl)
+    val Shape: Shape @Composable get() = RoundedCornerShape(BorderRadius.roundedLg)
     val ElevatedShape: Shape @Composable get() = Shape
     val OutlinedShape: Shape @Composable get() = Shape
     private val BorderWidth = 1.dp

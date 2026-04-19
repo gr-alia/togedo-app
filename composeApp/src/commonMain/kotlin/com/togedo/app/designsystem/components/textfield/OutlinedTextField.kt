@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
+import com.togedo.app.designsystem.components.Text
 import com.togedo.app.designsystem.components.textfield.base.CommonDecorationBox
 import com.togedo.app.designsystem.components.textfield.base.FocusedOutlineThickness
 import com.togedo.app.designsystem.components.textfield.base.HorizontalIconPadding
@@ -43,6 +47,7 @@ import com.togedo.app.designsystem.components.textfield.base.TextFieldMinHeight
 import com.togedo.app.designsystem.components.textfield.base.TextFieldVerticalPadding
 import com.togedo.app.designsystem.components.textfield.base.UnfocusedOutlineThickness
 import com.togedo.app.designsystem.components.textfield.base.containerOutline
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun OutlinedTextField(
@@ -203,7 +208,7 @@ fun OutlinedTextField(
 @Immutable
 object OutlinedTextFieldDefaults {
     val MinHeight = TextFieldMinHeight
-    val Shape: Shape = RoundedCornerShape(BorderRadius.roundedXl)
+    val Shape: Shape = RoundedCornerShape(BorderRadius.roundedMd)
 
     private fun contentPadding(
         start: Dp = TextFieldHorizontalPadding,
@@ -360,4 +365,58 @@ object OutlinedTextFieldDefaults {
             errorSuffixColor = AppTheme.colors.primary,
         )
     }
+}
+
+@Composable
+@Preview
+fun OutlinedTextFieldPreview(isDarkTheme: Boolean = false) {
+    AppTheme(isDarkTheme = isDarkTheme) {
+        Column(
+            modifier = Modifier
+                .background(AppTheme.colors.background)
+                .padding(Spacing.spacing4),
+            verticalArrangement = Arrangement.spacedBy(Spacing.spacing4),
+        ) {
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                placeholder = { Text("Placeholder") },
+            )
+            OutlinedTextField(
+                value = "Input value",
+                onValueChange = {},
+            )
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = { Text("Label") },
+                placeholder = { Text("Placeholder") },
+            )
+            OutlinedTextField(
+                value = "Input value",
+                onValueChange = {},
+                label = { Text("Label") },
+                supportingText = { Text("Supporting text") },
+            )
+            OutlinedTextField(
+                value = "Disabled",
+                onValueChange = {},
+                enabled = false,
+                label = { Text("Label") },
+            )
+            OutlinedTextField(
+                value = "Error value",
+                onValueChange = {},
+                isError = true,
+                label = { Text("Label") },
+                supportingText = { Text("Error message") },
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+fun OutlinedTextFieldDarkPreview() {
+    OutlinedTextFieldPreview(isDarkTheme = true)
 }

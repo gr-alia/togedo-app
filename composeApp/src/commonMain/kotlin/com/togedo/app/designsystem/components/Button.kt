@@ -191,7 +191,7 @@ internal object ButtonDefaults {
     internal val OutlineHeight = 1.dp
     private val ButtonHorizontalPadding = 16.dp
     private val ButtonVerticalPadding = 8.dp
-    private val ButtonShape = RoundedCornerShape(BorderRadius.roundedXl)
+    private val ButtonShape = RoundedCornerShape(BorderRadius.roundedLg)
 
     val contentPadding =
         PaddingValues(
@@ -457,17 +457,19 @@ internal data class ButtonStyle(
 @Composable
 @Preview
 fun ButtonNightsPreview() {
+    AppTheme(isDarkTheme=true) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            PrimaryButtonPreview()
-            SecondaryButtonPreview()
-            DestructiveButtonPreview()
+            PrimaryButtonPreview(isDarkTheme = true)
+            SecondaryButtonPreview(isDarkTheme = true)
+            DestructiveButtonPreview(isDarkTheme = true)
         }
+    }
 }
 
 @Composable
 @Preview
-fun PrimaryButtonPreview() {
-    AppTheme {
+fun PrimaryButtonPreview(isDarkTheme: Boolean = false) {
+    AppTheme(isDarkTheme=isDarkTheme) {
         Column(
             modifier =
                 Modifier
@@ -522,8 +524,8 @@ fun PrimaryButtonPreview() {
 
 @Composable
 @Preview
-fun SecondaryButtonPreview() {
-    AppTheme {
+fun SecondaryButtonPreview(isDarkTheme: Boolean=false ) {
+    AppTheme(isDarkTheme= isDarkTheme) {
         Column(
             modifier =
                 Modifier
@@ -578,8 +580,8 @@ fun SecondaryButtonPreview() {
 
 @Composable
 @Preview
-fun DestructiveButtonPreview() {
-    AppTheme {
+fun DestructiveButtonPreview(isDarkTheme: Boolean =false ) {
+    AppTheme(isDarkTheme = isDarkTheme) {
         Column(
             modifier =
                 Modifier
