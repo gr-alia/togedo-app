@@ -251,10 +251,10 @@ internal object ButtonDefaults {
             colors =
                 ButtonColors(
                     containerColor = AppTheme.colors.transparent,
-                    contentColor = AppTheme.colors.primary,
-                    borderColor = AppTheme.colors.primary,
+                    contentColor = AppTheme.colors.text,
+                    borderColor = AppTheme.colors.outline,
                     disabledContainerColor = AppTheme.colors.transparent,
-                    disabledContentColor = AppTheme.colors.onDisabled,
+                    disabledContentColor = AppTheme.colors.text,
                     disabledBorderColor = AppTheme.colors.disabled,
                 ),
             shape = outlinedShape,
@@ -315,10 +315,10 @@ internal object ButtonDefaults {
             colors =
                 ButtonColors(
                     containerColor = AppTheme.colors.transparent,
-                    contentColor = AppTheme.colors.secondary,
-                    borderColor = AppTheme.colors.secondary,
+                    contentColor = AppTheme.colors.text,
+                    borderColor = AppTheme.colors.outline,
                     disabledContainerColor = AppTheme.colors.transparent,
-                    disabledContentColor = AppTheme.colors.onDisabled,
+                    disabledContentColor = AppTheme.colors.text,
                     disabledBorderColor = AppTheme.colors.disabled,
                 ),
             shape = outlinedShape,
@@ -456,12 +456,12 @@ internal data class ButtonStyle(
 
 @Composable
 @Preview
-fun ButtonPreview() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        PrimaryButtonPreview()
-        SecondaryButtonPreview()
-        DestructiveButtonPreview()
-    }
+fun ButtonNightsPreview() {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            PrimaryButtonPreview()
+            SecondaryButtonPreview()
+            DestructiveButtonPreview()
+        }
 }
 
 @Composable

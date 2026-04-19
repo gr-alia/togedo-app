@@ -69,7 +69,7 @@ fun Text(
 }
 
 @Composable
-internal fun Text(
+fun Text(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,

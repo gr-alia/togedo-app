@@ -131,7 +131,7 @@ class ActivityListScreen : Screen {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = Spacing.spacing5)
+                    .padding(horizontal = Spacing.spacing4)
                     .padding(top = Spacing.spacing8, bottom = Spacing.spacing4),
             ) {
                 GreetingHeader(

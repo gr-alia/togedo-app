@@ -23,7 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -154,7 +157,7 @@ private fun HeroArea(onBackClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = Spacing.spacing5)
-                .padding(top = Spacing.spacing14)
+                .padding(top = 12.dp)
                 .align(Alignment.TopStart),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -248,16 +251,16 @@ private fun AttributionRow() {
         Spacer(modifier = Modifier.width(Spacing.spacing8))
 
         Text(
-            text = buildAttributionString(),
+            text = buildAnnotatedString {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("You") }
+                append(" added this for ")
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Jack") }
+                append(" · 2 days ago")
+            },
             style = AppTheme.typography.body2,
             color = AppTheme.colors.textSecondary,
         )
     }
-}
-
-@Composable
-private fun buildAttributionString() = buildString {
-    append("You added this for Jack · 2 days ago")
 }
 
 @Composable
@@ -422,18 +425,20 @@ private fun BottomActions() {
             variant = ButtonVariant.SecondaryOutlined,
             onClick = {},
         ) {
-            Icon(
-                imageVector = FeatherIcons.Edit2,
-                contentDescription = null,
-                tint = AppTheme.colors.secondary,
-                modifier = Modifier.size(16.dp),
-            )
-            Spacer(modifier = Modifier.width(Spacing.spacing1))
-            Text(
-                text = "Edit",
-                style = AppTheme.typography.button,
-                color = AppTheme.colors.secondary,
-            )
+            Row {
+                Icon(
+                    imageVector = FeatherIcons.Edit2,
+                    contentDescription = null,
+                    tint = AppTheme.colors.secondary,
+                    modifier = Modifier.size(16.dp),
+                )
+                Spacer(modifier = Modifier.width(Spacing.spacing1))
+                Text(
+                    text = "Edit",
+                    style = AppTheme.typography.button,
+                    color = AppTheme.colors.secondary,
+                )
+            }
         }
 
         Button(
@@ -441,18 +446,20 @@ private fun BottomActions() {
             variant = ButtonVariant.Primary,
             onClick = {},
         ) {
-            Icon(
-                imageVector = FeatherIcons.CheckCircle,
-                contentDescription = null,
-                tint = AppTheme.colors.onPrimary,
-                modifier = Modifier.size(18.dp),
-            )
-            Spacer(modifier = Modifier.width(Spacing.spacing1))
-            Text(
-                text = "Mark as done",
-                style = AppTheme.typography.button,
-                color = AppTheme.colors.onPrimary,
-            )
+            Row {
+                Icon(
+                    imageVector = FeatherIcons.CheckCircle,
+                    contentDescription = null,
+                    tint = AppTheme.colors.onPrimary,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(modifier = Modifier.width(Spacing.spacing2))
+                Text(
+                    text = "Mark as done",
+                    style = AppTheme.typography.button,
+                    color = AppTheme.colors.onPrimary,
+                )
+            }
         }
     }
 }
