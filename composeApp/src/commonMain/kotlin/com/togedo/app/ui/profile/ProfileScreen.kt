@@ -1,6 +1,7 @@
 package com.togedo.app.ui.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,9 +80,9 @@ private fun ProfileContent(
             .fillMaxSize()
             .background(AppTheme.colors.background)
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = Spacing.spacing5),
+            .padding(horizontal = Spacing.spacing4),
     ) {
-        Spacer(modifier = Modifier.height(Spacing.spacing14))
+        Spacer(modifier = Modifier.height(Spacing.spacing3))
 
         ProfileTopBar(onSettingsClick = onSettingsClick)
 
@@ -209,8 +210,9 @@ private fun PairedHeroCard() {
                         modifier = Modifier
                             .size(14.dp)
                             .align(Alignment.BottomEnd)
-                            .clip(CircleShape)
-                            .background(AppTheme.colors.success),
+                            .background(AppTheme.colors.success, shape = CircleShape)
+                            .border(shape = CircleShape, width = 2.dp, color = AppTheme.colors.surface)
+                        ,
                     )
                 }
             }
@@ -242,18 +244,20 @@ private fun PairedHeroCard() {
                     variant = ButtonVariant.Primary,
                     onClick = {},
                 ) {
-                    Icon(
-                        imageVector = FeatherIcons.Edit2,
-                        contentDescription = null,
-                        tint = AppTheme.colors.onPrimary,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Spacer(modifier = Modifier.width(Spacing.spacing1))
-                    Text(
-                        text = "Edit profile",
-                        style = AppTheme.typography.button,
-                        color = AppTheme.colors.onPrimary,
-                    )
+                    Row {
+                        Icon(
+                            imageVector = FeatherIcons.Edit2,
+                            contentDescription = null,
+                            tint = AppTheme.colors.onPrimary,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Spacer(modifier = Modifier.width(Spacing.spacing2))
+                        Text(
+                            text = "Edit profile",
+                            style = AppTheme.typography.button,
+                            color = AppTheme.colors.onPrimary,
+                        )
+                    }
                 }
 
                 Button(
@@ -261,18 +265,20 @@ private fun PairedHeroCard() {
                     variant = ButtonVariant.SecondaryOutlined,
                     onClick = {},
                 ) {
-                    Icon(
-                        imageVector = FeatherIcons.UserPlus,
-                        contentDescription = null,
-                        tint = AppTheme.colors.secondary,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Spacer(modifier = Modifier.width(Spacing.spacing1))
-                    Text(
-                        text = "Invite",
-                        style = AppTheme.typography.button,
-                        color = AppTheme.colors.secondary,
-                    )
+                    Row {
+                        Icon(
+                            imageVector = FeatherIcons.UserPlus,
+                            contentDescription = null,
+                            tint = AppTheme.colors.text,
+                            modifier = Modifier.size(16.dp),
+                        )
+                        Spacer(modifier = Modifier.width(Spacing.spacing2))
+                        Text(
+                            text = "Invite",
+                            style = AppTheme.typography.button,
+                            color = AppTheme.colors.text,
+                        )
+                    }
                 }
             }
         }
@@ -456,7 +462,10 @@ private fun RecentTogetherSection(activities: List<RecentActivity>) {
                 color = AppTheme.colors.transparent,
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = Spacing.spacing2, vertical = Spacing.spacing1),
+                    modifier = Modifier.padding(
+                        horizontal = Spacing.spacing2,
+                        vertical = Spacing.spacing1
+                    ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -561,8 +570,18 @@ fun ProfileScreenPreview() {
                     Badge(id = "3", title = "Achiever", level = 1, type = BadgeType.Achiever),
                 ),
                 recentActivities = listOf(
-                    RecentActivity(id = "1", title = "Sunset Picnic at the Beach", date = "Completed 2 days ago", type = RecentActivityType.Completed),
-                    RecentActivity(id = "2", title = "Japanese cooking class", date = "Added 5 days ago", type = RecentActivityType.Added),
+                    RecentActivity(
+                        id = "1",
+                        title = "Sunset Picnic at the Beach",
+                        date = "Completed 2 days ago",
+                        type = RecentActivityType.Completed
+                    ),
+                    RecentActivity(
+                        id = "2",
+                        title = "Japanese cooking class",
+                        date = "Added 5 days ago",
+                        type = RecentActivityType.Added
+                    ),
                 ),
             ),
             onSettingsClick = {},

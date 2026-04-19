@@ -6,10 +6,10 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +38,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
-import com.togedo.app.designsystem.components.Chip
 import com.togedo.app.designsystem.components.ChipDefaults
 import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.OutlinedChip
@@ -104,8 +103,13 @@ class ActivityListScreen : Screen {
             if (state.searchQuery.isNotBlank()) {
                 filtered = filtered.filter {
                     it.title.contains(state.searchQuery, ignoreCase = true) ||
-                        it.description.contains(state.searchQuery, ignoreCase = true) ||
-                        it.tags.any { tag -> tag.name.contains(state.searchQuery, ignoreCase = true) }
+                            it.description.contains(state.searchQuery, ignoreCase = true) ||
+                            it.tags.any { tag ->
+                                tag.name.contains(
+                                    state.searchQuery,
+                                    ignoreCase = true
+                                )
+                            }
                 }
             }
 
@@ -202,7 +206,8 @@ class ActivityListScreen : Screen {
                                     ?: AppTheme.colors.transparent,
                                 outlineColor = filter?.statusColor ?: AppTheme.colors.primary,
                                 contentColor = filter?.statusColor ?: AppTheme.colors.textSecondary,
-                                selectedContainerColor = filter?.statusColor ?: AppTheme.colors.primary,
+                                selectedContainerColor = filter?.statusColor
+                                    ?: AppTheme.colors.primary,
                                 selectedContentColor = AppTheme.colors.white,
                             ),
                             onClick = { onFilterByStatus(filter) },
@@ -227,7 +232,11 @@ class ActivityListScreen : Screen {
                     hasActivities = state.activities.isNotEmpty(),
                     hasSearch = state.searchQuery.isNotBlank() || state.selectedFilter != null,
                 )
-                else -> ActivityList(activities = filteredActivities, onActivityClick = onActivityClick)
+
+                else -> ActivityList(
+                    activities = filteredActivities,
+                    onActivityClick = onActivityClick
+                )
             }
         }
     }
@@ -300,6 +309,8 @@ class ActivityListScreen : Screen {
                     bgColor = AppTheme.colors.tertiary,
                     textColor = AppTheme.colors.onTertiary,
                 )
+                /*
+                // TODO online dot
                 Box(
                     modifier = Modifier
                         .size(10.dp)
@@ -310,6 +321,8 @@ class ActivityListScreen : Screen {
                         .clip(CircleShape)
                         .background(AppTheme.colors.secondary),
                 )
+
+                 */
             }
         }
     }
@@ -402,8 +415,16 @@ class ActivityListScreen : Screen {
                     tint = AppTheme.colors.error,
                     modifier = Modifier.size(Spacing.spacing8),
                 )
-                Text(text = "Something went wrong", style = AppTheme.typography.h4, color = AppTheme.colors.text)
-                Text(text = errorMessage, style = AppTheme.typography.body2, color = AppTheme.colors.textSecondary)
+                Text(
+                    text = "Something went wrong",
+                    style = AppTheme.typography.h4,
+                    color = AppTheme.colors.text
+                )
+                Text(
+                    text = errorMessage,
+                    style = AppTheme.typography.body2,
+                    color = AppTheme.colors.textSecondary
+                )
                 Text(
                     text = "Retry",
                     style = AppTheme.typography.button,
@@ -440,11 +461,17 @@ class ActivityListScreen : Screen {
                 ) {
                     Box(
                         modifier = Modifier.fillMaxWidth(0.6f).height(Spacing.spacing6)
-                            .background(AppTheme.colors.disabled, RoundedCornerShape(Spacing.spacing1)),
+                            .background(
+                                AppTheme.colors.disabled,
+                                RoundedCornerShape(Spacing.spacing1)
+                            ),
                     )
                     Box(
                         modifier = Modifier.fillMaxWidth(0.9f).height(Spacing.spacing4)
-                            .background(AppTheme.colors.disabled.copy(alpha = 0.5f), RoundedCornerShape(Spacing.spacing1)),
+                            .background(
+                                AppTheme.colors.disabled.copy(alpha = 0.5f),
+                                RoundedCornerShape(Spacing.spacing1)
+                            ),
                     )
                 }
             }
@@ -639,7 +666,10 @@ class ActivityListScreen : Screen {
                             id = "1",
                             title = "Sunset picnic at Eidsvold",
                             description = "Wine, cheese, that blanket we never use.",
-                            tags = listOf(ActivityUiModel.ActivityTag.Romantic, ActivityUiModel.ActivityTag.Chill),
+                            tags = listOf(
+                                ActivityUiModel.ActivityTag.Romantic,
+                                ActivityUiModel.ActivityTag.Chill
+                            ),
                             status = ActivityUiModel.ActivityStatus.Planned,
                             owner = ActivityUiModel.ActivityOwner.User,
                             date = "Fri",
@@ -648,7 +678,10 @@ class ActivityListScreen : Screen {
                             id = "2",
                             title = "Japanese cooking class",
                             description = "The one near Central Market with handmade udon.",
-                            tags = listOf(ActivityUiModel.ActivityTag.Fun, ActivityUiModel.ActivityTag.Fancy),
+                            tags = listOf(
+                                ActivityUiModel.ActivityTag.Fun,
+                                ActivityUiModel.ActivityTag.Fancy
+                            ),
                             status = ActivityUiModel.ActivityStatus.Idea,
                             owner = ActivityUiModel.ActivityOwner.Partner,
                         ),
