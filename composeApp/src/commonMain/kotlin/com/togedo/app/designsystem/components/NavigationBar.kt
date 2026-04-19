@@ -39,6 +39,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -88,7 +89,7 @@ fun RowScope.NavigationBarItem(
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true,
     colors: NavigationBarItemColors = NavigationBarItemDefaults.colors(),
-    textStyle: TextStyle = NavigationBarItemDefaults.textStyle(),
+    textStyle: TextStyle = NavigationBarItemDefaults.textStyle(selected),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val styledIcon = @Composable {
@@ -270,7 +271,11 @@ object NavigationBarItemDefaults {
         )
 
     @Composable
-    fun textStyle(): TextStyle = AppTheme.typography.label2
+    fun textStyle(selected: Boolean): TextStyle = if (selected){
+        AppTheme.typography.label2.copy(fontWeight = FontWeight.Bold)
+    }else{
+        AppTheme.typography.label2
+    }
 }
 
 @ConsistentCopyVisibility
