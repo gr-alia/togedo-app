@@ -48,3 +48,6 @@ GoogleService-Info.plist
 
 # Other
 *.gpg
+
+# Claude Code
+.claude/worktrees/
