@@ -35,6 +35,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import com.togedo.app.navigation.tabs.HomeTab
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
@@ -58,8 +60,13 @@ class AddActivityScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val tabNavigator = LocalTabNavigator.current
         val screenModel = koinScreenModel<AddActivityScreenModel>()
         val state by screenModel.state.collectAsState()
+
+        fun navigateBack() {
+            if (navigator.canPop) navigator.pop() else tabNavigator.current = HomeTab
+        }
 
         LaunchedEffect(state.showSuccessMessage) {
             if (state.showSuccessMessage) {
@@ -69,15 +76,15 @@ class AddActivityScreen : Screen {
 
         AddActivityContent(
             state = state,
-            onBackClick = { navigator.pop() },
+            onBackClick = ::navigateBack,
             onTitleChanged = screenModel::onTitleChanged,
             onDescriptionChanged = screenModel::onDescriptionChanged,
             onStatusSelected = screenModel::onStatusSelected,
             onCategoryToggled = screenModel::onCategoryToggled,
             onLocationChanged = screenModel::onLocationChanged,
             onDateClick = { screenModel.onShowDatePicker(true) },
-            onSaveClick = { screenModel.validateAndSave { navigator.pop() } },
-            onCancelClick = { navigator.pop() },
+            onSaveClick = { screenModel.validateAndSave(::navigateBack) },
+            onCancelClick = ::navigateBack,
         )
     }
 }

@@ -2,9 +2,11 @@ package com.togedo.app.navigation.tabs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.togedo.app.navigation.NavigatorDepthObserver
 import com.togedo.app.ui.profile.ProfileScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.User
@@ -22,6 +24,9 @@ object ProfileTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(ProfileScreen())
+        Navigator(ProfileScreen()) { navigator ->
+            NavigatorDepthObserver(navigator)
+            CurrentScreen()
+        }
     }
 }

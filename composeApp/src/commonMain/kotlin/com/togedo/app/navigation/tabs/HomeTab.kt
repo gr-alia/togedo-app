@@ -2,9 +2,11 @@ package com.togedo.app.navigation.tabs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.togedo.app.navigation.NavigatorDepthObserver
 import com.togedo.app.ui.activity.list.ActivityListScreen
 import compose.icons.FeatherIcons
 import compose.icons.feathericons.Home
@@ -23,6 +25,9 @@ object HomeTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(ActivityListScreen())
+        Navigator(ActivityListScreen()) { navigator ->
+            NavigatorDepthObserver(navigator)
+            CurrentScreen()
+        }
     }
 }
