@@ -438,7 +438,7 @@ class ActivityListScreen : Screen {
     @Composable
     private fun SkeletonLoadingState() {
         LazyColumn(
-            modifier = Modifier.padding(horizontal = Spacing.spacing5),
+            modifier = Modifier.padding(horizontal = Spacing.spacing4),
             verticalArrangement = Arrangement.spacedBy(Spacing.spacing3),
         ) {
             items(4) { SkeletonCard() }
@@ -508,7 +508,7 @@ class ActivityListScreen : Screen {
     @Composable
     private fun ActivityList(activities: List<ActivityUiModel>, onActivityClick: (String) -> Unit) {
         LazyColumn(
-            modifier = Modifier.padding(horizontal = Spacing.spacing5),
+            modifier = Modifier.padding(horizontal = Spacing.spacing4),
             verticalArrangement = Arrangement.spacedBy(Spacing.spacing3),
             contentPadding = PaddingValues(bottom = Spacing.spacing6),
         ) {

@@ -88,7 +88,7 @@ private fun RegisterContent(
             .fillMaxSize()
             .background(AppTheme.colors.background)
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = Spacing.spacing6),
+            .padding(horizontal = Spacing.spacing4),
     ) {
         Spacer(modifier = Modifier.height(Spacing.spacing14))
 

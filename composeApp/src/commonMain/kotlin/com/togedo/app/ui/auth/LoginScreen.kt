@@ -72,7 +72,7 @@ private fun LoginContent(
         modifier = Modifier
             .fillMaxSize()
             .background(AppTheme.colors.background)
-            .padding(horizontal = Spacing.spacing6),
+            .padding(horizontal = Spacing.spacing4),
     ) {
         Spacer(modifier = Modifier.height(Spacing.spacing14))
 

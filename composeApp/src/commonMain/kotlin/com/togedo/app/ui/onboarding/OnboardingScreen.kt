@@ -114,7 +114,7 @@ private fun OnboardingPageContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = Spacing.spacing5),
+            .padding(horizontal = Spacing.spacing4),
     ) {
         Spacer(modifier = Modifier.height(Spacing.spacing14))
 

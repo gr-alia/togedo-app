@@ -72,7 +72,7 @@ private fun ActivityDetailsContent(onBackClick: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = Spacing.spacing5)
+                .padding(horizontal = Spacing.spacing4)
                 .padding(top = Spacing.spacing5),
         ) {
             Text(

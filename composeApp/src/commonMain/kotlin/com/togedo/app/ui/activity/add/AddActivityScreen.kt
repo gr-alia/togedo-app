@@ -104,9 +104,9 @@ private fun AddActivityContent(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = Spacing.spacing5),
+                .padding(horizontal = Spacing.spacing4),
         ) {
-            Spacer(modifier = Modifier.height(Spacing.spacing14))
+            Spacer(modifier = Modifier.height(Spacing.spacing3))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

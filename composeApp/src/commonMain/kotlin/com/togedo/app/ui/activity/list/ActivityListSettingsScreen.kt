@@ -67,9 +67,9 @@ private fun ActivityListSettingsContent(onDoneClick: () -> Unit) {
             .fillMaxSize()
             .background(AppTheme.colors.background)
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = Spacing.spacing5),
+            .padding(horizontal = Spacing.spacing4),
     ) {
-        Spacer(modifier = Modifier.height(Spacing.spacing14))
+        Spacer(modifier = Modifier.height(Spacing.spacing3))
 
         ListSettingsTopBar(onDoneClick = onDoneClick)
 
