@@ -23,12 +23,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -37,8 +52,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
+import com.togedo.app.designsystem.Elevation
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.ChipDefaults
+import com.togedo.app.designsystem.components.Surface
 import com.togedo.app.designsystem.components.Icon
 import com.togedo.app.designsystem.components.OutlinedChip
 import com.togedo.app.designsystem.components.Text
@@ -127,116 +144,185 @@ class ActivityListScreen : Screen {
             filtered
         }
 
+        val density = LocalDensity.current
+        var headerHeightPx by remember { mutableFloatStateOf(0f) }
+        var headerOffsetPx by remember { mutableFloatStateOf(0f) }
+
+        val collapseProgress by remember {
+            derivedStateOf {
+                if (headerHeightPx > 0f) (-headerOffsetPx / headerHeightPx).coerceIn(0f, 1f) else 0f
+            }
+        }
+        val animatedCollapseProgress by animateFloatAsState(
+            targetValue = collapseProgress,
+            animationSpec = tween(durationMillis = 150),
+            label = "headerCollapse",
+        )
+        val searchElevation by animateDpAsState(
+            targetValue = if (animatedCollapseProgress >= 1f) Elevation.low else Elevation.none,
+            animationSpec = tween(durationMillis = 200),
+            label = "searchElevation",
+        )
+        val headerContainerHeightDp by remember {
+            derivedStateOf {
+                with(density) { (headerHeightPx + headerOffsetPx).coerceAtLeast(0f).toDp() }
+            }
+        }
+        val nestedScrollConnection = remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                    if (available.y < 0f) {
+                        val prev = headerOffsetPx
+                        headerOffsetPx = (headerOffsetPx + available.y).coerceIn(-headerHeightPx, 0f)
+                        return Offset(0f, headerOffsetPx - prev)
+                    }
+                    return Offset.Zero
+                }
+
+                override fun onPostScroll(
+                    consumed: Offset,
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    if (available.y > 0f) {
+                        val prev = headerOffsetPx
+                        headerOffsetPx = (headerOffsetPx + available.y).coerceIn(-headerHeightPx, 0f)
+                        return Offset(0f, headerOffsetPx - prev)
+                    }
+                    return Offset.Zero
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppTheme.colors.background),
+                .background(AppTheme.colors.background)
+                .nestedScroll(nestedScrollConnection),
         ) {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = Spacing.spacing4)
-                    .padding(top = Spacing.spacing8, bottom = Spacing.spacing4),
+                    .then(if (headerHeightPx > 0f) Modifier.height(headerContainerHeightDp) else Modifier)
+                    .clipToBounds(),
             ) {
-                GreetingHeader(
-                    greeting = getGreeting(),
-                    onSettingsClick = onSettingsClick,
-                )
-
-                Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                StreakCard()
-
-                Spacer(modifier = Modifier.height(Spacing.spacing4))
-
-                TextField(
-                    value = state.searchQuery,
-                    onValueChange = onSearchQueryChanged,
-                    placeholder = {
-                        Text(
-                            text = "Search by title, description, or tags…",
-                            style = AppTheme.typography.body2,
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = FeatherIcons.Search,
-                            tint = AppTheme.colors.textSecondary,
-                        )
-                    },
-                    trailingIcon = if (state.searchQuery.isNotBlank()) {
-                        {
-                            Icon(
-                                imageVector = FeatherIcons.X,
-                                contentDescription = "Clear search",
-                                modifier = Modifier
-                                    .size(26.dp)
-                                    .clip(CircleShape)
-                                    .clickable { onSearchQueryChanged("") }
-                                    .padding(Spacing.spacing1),
-                            )
-                        }
-                    } else {
-                        null
-                    },
-                )
-
-                Spacer(modifier = Modifier.height(Spacing.spacing3))
-
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+                        .onGloballyPositioned { headerHeightPx = it.size.height.toFloat() }
+                        .alpha(1f - animatedCollapseProgress)
+                        .padding(horizontal = Spacing.spacing4)
+                        .padding(top = Spacing.spacing8),
                 ) {
-                    val filters = listOf(
-                        null to "All · ${state.activities.size}",
-                        ActivityUiModel.ActivityStatus.Idea to "Idea",
-                        ActivityUiModel.ActivityStatus.Planned to "Planned",
-                        ActivityUiModel.ActivityStatus.Canceled to "Canceled",
-                        ActivityUiModel.ActivityStatus.Done to "Done",
+                    GreetingHeader(
+                        greeting = getGreeting(),
+                        onSettingsClick = onSettingsClick,
                     )
+                    Spacer(modifier = Modifier.height(Spacing.spacing4))
+                    StreakCard()
+                    Spacer(modifier = Modifier.height(Spacing.spacing4))
+                }
+            }
 
-                    filters.forEach { (filter, label) ->
-                        val isSelected = state.selectedFilter == filter
-                        OutlinedChip(
-                            colors = ChipDefaults.chipColors().copy(
-                                containerColor = filter?.statusBackgroundColor
-                                    ?: AppTheme.colors.transparent,
-                                outlineColor = filter?.statusColor ?: AppTheme.colors.primary,
-                                contentColor = filter?.statusColor ?: AppTheme.colors.textSecondary,
-                                selectedContainerColor = filter?.statusColor
-                                    ?: AppTheme.colors.primary,
-                                selectedContentColor = AppTheme.colors.white,
-                            ),
-                            onClick = { onFilterByStatus(filter) },
-                            selected = isSelected,
-                            contentPadding = PaddingValues(
-                                start = 10.dp,
-                                end = 10.dp,
-                                top = 6.dp,
-                                bottom = 6.dp,
-                            ),
-                        ) {
-                            Text(text = label, style = AppTheme.typography.label2)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = AppTheme.colors.background,
+                shadowElevation = searchElevation,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.spacing4)
+                        .padding(bottom = Spacing.spacing4),
+                ) {
+                    TextField(
+                        value = state.searchQuery,
+                        onValueChange = onSearchQueryChanged,
+                        placeholder = {
+                            Text(
+                                text = "Search by title, description, or tags…",
+                                style = AppTheme.typography.body2,
+                            )
+                        },
+                        leadingIcon = {
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                imageVector = FeatherIcons.Search,
+                                tint = AppTheme.colors.textSecondary,
+                            )
+                        },
+                        trailingIcon = if (state.searchQuery.isNotBlank()) {
+                            {
+                                Icon(
+                                    imageVector = FeatherIcons.X,
+                                    contentDescription = "Clear search",
+                                    modifier = Modifier
+                                        .size(26.dp)
+                                        .clip(CircleShape)
+                                        .clickable { onSearchQueryChanged("") }
+                                        .padding(Spacing.spacing1),
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(Spacing.spacing3))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+                    ) {
+                        val filters = listOf(
+                            null to "All · ${state.activities.size}",
+                            ActivityUiModel.ActivityStatus.Idea to "Idea",
+                            ActivityUiModel.ActivityStatus.Planned to "Planned",
+                            ActivityUiModel.ActivityStatus.Canceled to "Canceled",
+                            ActivityUiModel.ActivityStatus.Done to "Done",
+                        )
+
+                        filters.forEach { (filter, label) ->
+                            val isSelected = state.selectedFilter == filter
+                            OutlinedChip(
+                                colors = ChipDefaults.chipColors().copy(
+                                    containerColor = filter?.statusBackgroundColor
+                                        ?: AppTheme.colors.transparent,
+                                    outlineColor = filter?.statusColor ?: AppTheme.colors.primary,
+                                    contentColor = filter?.statusColor ?: AppTheme.colors.textSecondary,
+                                    selectedContainerColor = filter?.statusColor
+                                        ?: AppTheme.colors.primary,
+                                    selectedContentColor = AppTheme.colors.white,
+                                ),
+                                onClick = { onFilterByStatus(filter) },
+                                selected = isSelected,
+                                contentPadding = PaddingValues(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                    top = 6.dp,
+                                    bottom = 6.dp,
+                                ),
+                            ) {
+                                Text(text = label, style = AppTheme.typography.label2)
+                            }
                         }
                     }
                 }
             }
 
-            when {
-                state.isLoading -> SkeletonLoadingState()
-                state.error != null -> ErrorState(errorMessage = state.error, onRetry = onRefresh)
-                filteredActivities.isEmpty() -> EmptyState(
-                    hasActivities = state.activities.isNotEmpty(),
-                    hasSearch = state.searchQuery.isNotBlank() || state.selectedFilter != null,
-                )
-
-                else -> ActivityList(
-                    activities = filteredActivities,
-                    onActivityClick = onActivityClick
-                )
+            Box(modifier = Modifier.weight(1f)) {
+                when {
+                    state.isLoading -> SkeletonLoadingState()
+                    state.error != null -> ErrorState(errorMessage = state.error, onRetry = onRefresh)
+                    filteredActivities.isEmpty() -> EmptyState(
+                        hasActivities = state.activities.isNotEmpty(),
+                        hasSearch = state.searchQuery.isNotBlank() || state.selectedFilter != null,
+                    )
+                    else -> ActivityList(
+                        activities = filteredActivities,
+                        onActivityClick = onActivityClick,
+                    )
+                }
             }
         }
     }
