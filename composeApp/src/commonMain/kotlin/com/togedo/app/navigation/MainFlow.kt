@@ -1,8 +1,5 @@
 package com.togedo.app.navigation
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -59,11 +56,7 @@ fun MainFlow() {
 
             Scaffold(
                 bottomBar = {
-                    AnimatedVisibility(
-                        visible = showBottomNav,
-                        enter = slideInVertically { it },
-                        exit = slideOutVertically { it },
-                    ) {
+                    if (showBottomNav) {
                         MainNavigationBar(
                             onCreateClick = { tabNavigator.current = CreateTab },
                         )

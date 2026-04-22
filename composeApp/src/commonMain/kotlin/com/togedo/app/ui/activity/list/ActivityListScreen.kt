@@ -6,11 +6,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -520,32 +518,24 @@ class ActivityListScreen : Screen {
     @Composable
     private fun SkeletonCard() {
         Card(modifier = Modifier.fillMaxWidth().height(128.dp)) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(Spacing.spacing4),
+                verticalArrangement = Arrangement.spacedBy(Spacing.spacing2),
+            ) {
                 Box(
-                    modifier = Modifier
-                        .width(4.dp)
-                        .fillMaxHeight()
-                        .background(AppTheme.colors.disabled),
+                    modifier = Modifier.fillMaxWidth(0.6f).height(Spacing.spacing6)
+                        .background(
+                            AppTheme.colors.disabled,
+                            RoundedCornerShape(Spacing.spacing1)
+                        ),
                 )
-                Column(
-                    modifier = Modifier.weight(1f).padding(Spacing.spacing4),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.spacing2),
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(0.6f).height(Spacing.spacing6)
-                            .background(
-                                AppTheme.colors.disabled,
-                                RoundedCornerShape(Spacing.spacing1)
-                            ),
-                    )
-                    Box(
-                        modifier = Modifier.fillMaxWidth(0.9f).height(Spacing.spacing4)
-                            .background(
-                                AppTheme.colors.disabled.copy(alpha = 0.5f),
-                                RoundedCornerShape(Spacing.spacing1)
-                            ),
-                    )
-                }
+                Box(
+                    modifier = Modifier.fillMaxWidth(0.9f).height(Spacing.spacing4)
+                        .background(
+                            AppTheme.colors.disabled.copy(alpha = 0.5f),
+                            RoundedCornerShape(Spacing.spacing1)
+                        ),
+                )
             }
         }
     }
@@ -592,10 +582,6 @@ class ActivityListScreen : Screen {
 
     @Composable
     private fun ActivityCard(activity: ActivityUiModel, onClick: () -> Unit) {
-        val ownerColor = when (activity.owner) {
-            ActivityUiModel.ActivityOwner.User -> AppTheme.colors.primary
-            ActivityUiModel.ActivityOwner.Partner -> AppTheme.colors.secondary
-        }
         val ownerLabel = when (activity.owner) {
             ActivityUiModel.ActivityOwner.User -> "You"
             ActivityUiModel.ActivityOwner.Partner -> "Jack"
@@ -611,116 +597,103 @@ class ActivityListScreen : Screen {
             onClick = onClick,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
+                    .padding(
+                        start = Spacing.spacing4,
+                        end = Spacing.spacing4,
+                        top = Spacing.spacing4,
+                        bottom = Spacing.spacing4,
+                    ),
             ) {
-                Box(
-                    modifier = Modifier
-                        .width(4.dp)
-                        .fillMaxHeight()
-                        .background(ownerColor),
-                )
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(
-                            start = Spacing.spacing3,
-                            end = Spacing.spacing4,
-                            top = Spacing.spacing4,
-                            bottom = Spacing.spacing4,
-                        ),
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.Top,
+                    Text(
+                        text = activity.title,
+                        style = AppTheme.typography.h3,
+                        color = AppTheme.colors.text,
+                        modifier = Modifier.weight(1f).padding(end = Spacing.spacing2),
+                    )
+                    OutlinedChip(
+                        colors = ChipDefaults.chipColors().copy(
+                            containerColor = activity.status.statusBackgroundColor,
+                            outlineColor = activity.status.statusColor,
+                            contentColor = activity.status.statusColor,
+                            selectedContainerColor = activity.status.statusColor,
+                            selectedContentColor = AppTheme.colors.white,
+                        ),
+                        onClick = {},
+                        selected = true,
+                        contentPadding = PaddingValues(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 6.dp,
+                            bottom = 6.dp,
+                        ),
                     ) {
+                        Text(text = statusText, style = AppTheme.typography.label2)
+                    }
+                }
+
+                if (activity.description.isNotBlank()) {
+                    Text(
+                        text = activity.description,
+                        style = AppTheme.typography.body2,
+                        color = AppTheme.colors.textSecondary,
+                        maxLines = 2,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.spacing1),
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(Spacing.spacing3))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.spacing1),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(6.dp)
+                            .clip(CircleShape)
+                            .background(AppTheme.colors.tertiary),
+                    )
+                    Text(
+                        text = ownerLabel,
+                        style = AppTheme.typography.label2.copy(fontWeight = FontWeight.SemiBold),
+                        color = AppTheme.colors.textSecondary,
+                    )
+                    if (activity.date != null) {
                         Text(
-                            text = activity.title,
-                            style = AppTheme.typography.h3,
-                            color = AppTheme.colors.text,
-                            modifier = Modifier.weight(1f).padding(end = Spacing.spacing2),
+                            text = "· ${activity.date}",
+                            style = AppTheme.typography.label2,
+                            color = AppTheme.colors.textDisabled,
                         )
-                        OutlinedChip(
-                            colors = ChipDefaults.chipColors().copy(
-                                containerColor = activity.status.statusBackgroundColor,
-                                outlineColor = activity.status.statusColor,
-                                contentColor = activity.status.statusColor,
-                                selectedContainerColor = activity.status.statusColor,
-                                selectedContentColor = AppTheme.colors.white,
-                            ),
-                            onClick = {},
-                            selected = true,
-                            contentPadding = PaddingValues(
-                                start = 10.dp,
-                                end = 10.dp,
-                                top = 6.dp,
-                                bottom = 6.dp,
-                            ),
-                        ) {
-                            Text(text = statusText, style = AppTheme.typography.label2)
-                        }
                     }
 
-                    if (activity.description.isNotBlank()) {
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    activity.tags.take(2).forEach { tag ->
                         Text(
-                            text = activity.description,
-                            style = AppTheme.typography.body2,
+                            text = tag.name,
+                            style = AppTheme.typography.label2,
                             color = AppTheme.colors.textSecondary,
-                            maxLines = 2,
-                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                            modifier = Modifier.fillMaxWidth().padding(top = Spacing.spacing1),
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(Spacing.spacing3))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing1),
-                    ) {
-                        Box(
                             modifier = Modifier
-                                .size(6.dp)
-                                .clip(CircleShape)
-                                .background(AppTheme.colors.tertiary),
+                                .clip(RoundedCornerShape(BorderRadius.roundedFull))
+                                .background(AppTheme.colors.background)
+                                .padding(horizontal = Spacing.spacing2, vertical = 3.dp),
                         )
+                    }
+                    if (activity.tags.size > 2) {
                         Text(
-                            text = ownerLabel,
-                            style = AppTheme.typography.label2.copy(fontWeight = FontWeight.SemiBold),
-                            color = AppTheme.colors.textSecondary,
+                            text = "+${activity.tags.size - 2}",
+                            style = AppTheme.typography.label2,
+                            color = AppTheme.colors.textDisabled,
                         )
-                        if (activity.date != null) {
-                            Text(
-                                text = "· ${activity.date}",
-                                style = AppTheme.typography.label2,
-                                color = AppTheme.colors.textDisabled,
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        activity.tags.take(2).forEach { tag ->
-                            Text(
-                                text = tag.name,
-                                style = AppTheme.typography.label2,
-                                color = AppTheme.colors.textSecondary,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(BorderRadius.roundedFull))
-                                    .background(AppTheme.colors.background)
-                                    .padding(horizontal = Spacing.spacing2, vertical = 3.dp),
-                            )
-                        }
-                        if (activity.tags.size > 2) {
-                            Text(
-                                text = "+${activity.tags.size - 2}",
-                                style = AppTheme.typography.label2,
-                                color = AppTheme.colors.textDisabled,
-                            )
-                        }
                     }
                 }
             }

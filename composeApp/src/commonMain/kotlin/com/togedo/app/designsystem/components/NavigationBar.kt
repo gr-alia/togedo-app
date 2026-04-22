@@ -237,7 +237,7 @@ private fun MeasureScope.placeLabelAndIcon(
 }
 
 internal object NavigationBarDefaults {
-    internal val NavigationBarHeight: Dp = 80.0.dp
+    internal val NavigationBarHeight: Dp = 64.0.dp
     val containerColor: Color @Composable get() = AppTheme.colors.background
 
     val windowInsets: WindowInsets
