@@ -54,24 +54,28 @@ fun MainFlow() {
         TabNavigator(HomeTab) { tabNavigator ->
             val showBottomNav = hiddenCount.value == 0 && tabNavigator.current != CreateTab
 
-            Scaffold(
-                bottomBar = {
-                    if (showBottomNav) {
-                        MainNavigationBar(
-                            onCreateClick = { tabNavigator.current = CreateTab },
-                        )
+            Box(modifier = Modifier.fillMaxSize()) {
+                Scaffold { paddingValues ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                bottom = paddingValues.calculateBottomPadding(),
+                                top = paddingValues.calculateTopPadding(),
+                            )
+                    ) {
+                        CurrentTab()
                     }
                 }
-            ) { paddingValues ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            bottom = paddingValues.calculateBottomPadding(),
-                            top = paddingValues.calculateTopPadding(),
-                        )
-                ) {
-                    CurrentTab()
+
+                if (showBottomNav) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter)
+                    ) {
+                        MainNavigationBar(onCreateClick = { tabNavigator.current = CreateTab })
+                    }
                 }
             }
         }

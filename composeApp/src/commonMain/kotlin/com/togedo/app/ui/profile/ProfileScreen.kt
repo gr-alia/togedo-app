@@ -35,6 +35,7 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
+import com.togedo.app.designsystem.components.NavigationBarDefaults.NavigationBarHeight
 import com.togedo.app.designsystem.BorderRadius
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.Button
@@ -104,7 +105,7 @@ private fun ProfileContent(
             RecentTogetherSection(activities = state.recentActivities)
         }
 
-        Spacer(modifier = Modifier.height(Spacing.spacing8))
+        Spacer(modifier = Modifier.height(NavigationBarHeight + Spacing.spacing8))
     }
 }
 

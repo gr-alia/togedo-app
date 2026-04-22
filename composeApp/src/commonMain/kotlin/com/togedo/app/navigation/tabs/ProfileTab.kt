@@ -1,9 +1,11 @@
 package com.togedo.app.navigation.tabs
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.togedo.app.navigation.NavigatorDepthObserver
@@ -26,7 +28,9 @@ object ProfileTab : Tab {
     override fun Content() {
         Navigator(ProfileScreen()) { navigator ->
             NavigatorDepthObserver(navigator)
-            CurrentScreen()
+            SlideTransition(navigator,
+             //   modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

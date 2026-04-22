@@ -1,5 +1,6 @@
 package com.togedo.app.ui.activity.list
 
+import com.togedo.app.designsystem.components.NavigationBarDefaults.NavigationBarHeight
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -510,6 +511,7 @@ class ActivityListScreen : Screen {
         LazyColumn(
             modifier = Modifier.padding(horizontal = Spacing.spacing4),
             verticalArrangement = Arrangement.spacedBy(Spacing.spacing3),
+            contentPadding = PaddingValues(bottom = NavigationBarHeight + Spacing.spacing6),
         ) {
             items(4) { SkeletonCard() }
         }
@@ -572,7 +574,7 @@ class ActivityListScreen : Screen {
         LazyColumn(
             modifier = Modifier.padding(horizontal = Spacing.spacing4),
             verticalArrangement = Arrangement.spacedBy(Spacing.spacing3),
-            contentPadding = PaddingValues(bottom = Spacing.spacing6),
+            contentPadding = PaddingValues(bottom = NavigationBarHeight + Spacing.spacing6),
         ) {
             items(items = activities, key = { it.id }) { activity ->
                 ActivityCard(activity = activity, onClick = { onActivityClick(activity.id) })

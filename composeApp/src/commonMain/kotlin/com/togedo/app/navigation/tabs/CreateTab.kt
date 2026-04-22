@@ -3,6 +3,7 @@ package com.togedo.app.navigation.tabs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.togedo.app.ui.activity.add.AddActivityScreen
@@ -23,6 +24,8 @@ object CreateTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(AddActivityScreen())
+        Navigator(AddActivityScreen()) { navigator ->
+            SlideTransition(navigator)
+        }
     }
 }

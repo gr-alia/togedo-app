@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.voyager.screenModel)
             implementation(libs.voyager.tabNavigator)
             implementation(libs.voyager.koin)
+            implementation(libs.voyager.transitions)
             implementation(libs.composeIcons.feather)
         }
 
