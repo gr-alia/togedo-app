@@ -39,6 +39,70 @@ The application uses Compose Multiplatform for shared UI across all platforms.
 - Add `local.properties` file to project root with path to Android SDK
 - Run [KDoctor](https://github.com/Kotlin/kdoctor) to verify system setup
 
+## AI-Assisted Testing with Claude Code (Mobile Next MCP)
+
+Claude Code is configured with the Mobile Next MCP (`mobile` server, user-scoped) enabling direct interaction with Android and iOS targets without manual screenshotting or narration.
+
+### Connected Targets
+
+- **Android physical device**: connected via USB, USB debugging enabled
+- **Android emulator**: start with `emulator -avd <your_avd_name>` — appears automatically as `emulator-5554`
+- **iOS Simulator**: start with `xcrun simctl boot "iPhone 16" && open -a Simulator`
+- **Desktop JVM**: no MCP support — use Computer Use (`/mcp` → enable `computer-use`) or observe terminal output
+- Check all connected devices: `adb devices`
+
+### Build → Install → Test Loop (Android)
+
+```
+./gradlew :composeApp:assembleDebug
+# APK: composeApp/build/outputs/apk/debug/composeApp-debug.apk
+# Then: mobile_install_app with the APK path above
+# App package: com.togedo.app
+```
+
+### MCP Tool Usage Rules
+
+- Always call `mobile_take_screenshot` after install before any interaction
+- Prefer `mobile_list_elements_on_screen` over coordinate guessing — use coordinates only as fallback
+- After navigation actions, read logcat via bash if behavior is unexpected
+- When multiple devices are connected, always specify the target explicitly in the prompt
+- Do not cache results from `mobile_list_elements_on_screen` or `mobile_take_screenshot` — always re-fetch
+
+### Logcat (not covered by MCP — use bash tool)
+
+```bash
+# Recent filtered logs
+adb logcat -s Togedo -d | tail -50
+# Clear buffer before a test run
+adb logcat -c
+# Watch live
+adb logcat -s Togedo
+```
+
+### iOS Simulator Lifecycle
+
+```bash
+# Boot
+xcrun simctl boot "iPhone 16" && open -a Simulator
+# Shut down simulator
+xcrun simctl shutdown "iPhone 16"
+# Shut down all simulators
+xcrun simctl shutdown all
+# Close Simulator app
+osascript -e 'quit app "Simulator"'
+# List booted
+xcrun simctl list devices | grep Booted
+```
+
+### Suggested Prompts for Common Testing Tasks
+
+- `"Install the latest debug APK on the Android emulator and run through the onboarding flow, screenshot each screen"`
+- `"Take a screenshot of the current Android device screen and list all interactive elements"`
+- `"Test the AddActivity screen on the emulator — fill in the form and verify the result"`
+- `"Check if the bottom navigation renders correctly on the iOS Simulator"`
+
+---
+
 ## Key Technologies and Libraries
 
 - **Dependency Injection**: Koin (v4.1.1) - used across all modules
