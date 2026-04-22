@@ -23,9 +23,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -35,15 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
+import kotlin.math.roundToInt
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -52,7 +50,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.togedo.app.designsystem.AppTheme
 import com.togedo.app.designsystem.BorderRadius
-import com.togedo.app.designsystem.Elevation
 import com.togedo.app.designsystem.Spacing
 import com.togedo.app.designsystem.components.ChipDefaults
 import com.togedo.app.designsystem.components.Surface
@@ -144,28 +141,12 @@ class ActivityListScreen : Screen {
             filtered
         }
 
-        val density = LocalDensity.current
         var headerHeightPx by remember { mutableFloatStateOf(0f) }
         var headerOffsetPx by remember { mutableFloatStateOf(0f) }
 
         val collapseProgress by remember {
             derivedStateOf {
                 if (headerHeightPx > 0f) (-headerOffsetPx / headerHeightPx).coerceIn(0f, 1f) else 0f
-            }
-        }
-        val animatedCollapseProgress by animateFloatAsState(
-            targetValue = collapseProgress,
-            animationSpec = tween(durationMillis = 150),
-            label = "headerCollapse",
-        )
-        val searchElevation by animateDpAsState(
-            targetValue = if (animatedCollapseProgress >= 1f) Elevation.low else Elevation.none,
-            animationSpec = tween(durationMillis = 200),
-            label = "searchElevation",
-        )
-        val headerContainerHeightDp by remember {
-            derivedStateOf {
-                with(density) { (headerHeightPx + headerOffsetPx).coerceAtLeast(0f).toDp() }
             }
         }
         val nestedScrollConnection = remember {
@@ -203,14 +184,20 @@ class ActivityListScreen : Screen {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .then(if (headerHeightPx > 0f) Modifier.height(headerContainerHeightDp) else Modifier)
-                    .clipToBounds(),
+                    .clipToBounds()
+                    .layout { measurable, constraints ->
+                        val placeable = measurable.measure(constraints)
+                        val height = (placeable.height + headerOffsetPx.roundToInt()).coerceAtLeast(0)
+                        layout(placeable.width, height) {
+                            placeable.place(0, 0)
+                        }
+                    },
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .onGloballyPositioned { headerHeightPx = it.size.height.toFloat() }
-                        .alpha(1f - animatedCollapseProgress)
+                        .graphicsLayer { alpha = 1f - collapseProgress }
                         .padding(horizontal = Spacing.spacing4)
                         .padding(top = Spacing.spacing8),
                 ) {
@@ -227,7 +214,6 @@ class ActivityListScreen : Screen {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = AppTheme.colors.background,
-                shadowElevation = searchElevation,
             ) {
                 Column(
                     modifier = Modifier
